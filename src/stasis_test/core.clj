@@ -9,7 +9,7 @@
             [optimus.optimizations :as optimizations]
             [optimus.strategies :refer [serve-live-assets]]
             [stasis-test.util :refer [parse-ndjson trace mapkeys mapmap]]
-            [stasis-test.articles :refer [layout restructure-article article2hiccup]]
+            [stasis-test.articles :refer [site layout restructure-article article2hiccup]]
             [hiccup.page :refer [html5]]))
 
 (def quips ["i am not",
@@ -50,7 +50,7 @@
 
 (def pages
   {"/index.html"
-   (html5 (layout
+   (html5 (site
             {:children children
              :head (seq [[:script {:type "module"} quiper]])
              :title "daxi.ml landing page"}))})

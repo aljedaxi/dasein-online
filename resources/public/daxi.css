@@ -2,14 +2,15 @@ ul.csv {display: inline; list-style: none; margin: 0; padding: 0;}
 ul.csv li {display: inline;}
 ul.csv li:after { content: ", ";}
 ul.csv li:last-child:after { content: ""; }
+body {display:grid;gap:8px;}
 
 @media (prefers-color-scheme: dark) {
-	body{background-image:url(/public/favicon.avif);background-size:100%}
-	body>*{background-color:black;color:white;width:fit-content;padding:8px;}
+	body{background-image:url(/public/favicon.avif);background-size:100%;color:white;}
+	body>*{background-color:black;width:fit-content;padding:8px;}
 	a{color:#d2738a}
 }
 @media (prefers-color-scheme: light) {
-	body{background-image:url(/public/erde.avif);background-size:100%}
-	body>*{background-color:#fff3cb;color:black;width:fit-content;padding:8px;}
+	body{background-image:url(/public/erde.avif);background-size:100%;color:black;}
+	body>*{background-color:#fff3cb;width:fit-content;padding:8px;}
 	a{color:#415B77}
 }

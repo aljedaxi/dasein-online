@@ -5,7 +5,7 @@
 
 (def socials ["https://github.com/aljedaxi" "mailto:alje@daxi.ml"])
 
-(defn layout [{:keys [children head title header]}]
+(defn site [{:keys [children head title]}]
   [:html
    [:head
     ; [:link {:rel "webmention" :href "https://webmention.io/daxi.ml/webmention"}]
@@ -16,10 +16,14 @@
     [:title (or title "daxi.ml")]
     ; (for [s socials] [:link {:rel "me" :href s}])
     head]
-   [:body 
-    [:main.wrapper
-     [:header header]
-     [:article children]]]])
+   [:body children]])
+
+(defn layout [{:keys [children head title header]}]
+  (site
+    {:head head
+     :children [:body [:main.wrapper
+                       [:header header]
+                       [:article children]]]}))
 
 (defn restructure-article
   [[{uuid :uuid
