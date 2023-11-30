@@ -3,6 +3,7 @@
             [ring.middleware.content-type :refer [wrap-content-type]]
             [optimus.prime :as optimus]
             [optimus.assets :as assets]
+            [optimus.export]
             [clojure.java.io :as io]
             [clojure.string :as s]
             [optimus.optimizations :as optimizations]
@@ -63,13 +64,7 @@
              (optimus/wrap get-assets optimizations/none serve-live-assets)
              wrap-content-type))
 
-(def target-dir "out")
-
-(defn export []
+(defn export [target-dir]
   (stasis/empty-directory! target-dir)
-  (stasis/export-pages pages target-dir))
-
-; (defn app [request]
-;   {:status 200
-;    :headers {}
-;    :body "swag"})
+  (optimus.export/save-assets (get-assets) target-dir)
+  (stasis/export-pages (get-pages) target-dir {:stasis/ignore-nil-pages? true}))

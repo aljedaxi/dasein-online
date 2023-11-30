@@ -11,7 +11,5 @@
                  [markdown-clj "1.11.4"]
                  [stasis "2023.06.03"]]
   :plugins [[lein-ring "0.12.5"]]
-  :aliases {"build-site" ["run" "-m" "stasis-test.core/export"]
-            "swag" ["run" "-m" "statis-test.swag/main"]}
   :ring {:handler stasis-test.core/app}
   :repl-options {:init-ns stasis-test.core})

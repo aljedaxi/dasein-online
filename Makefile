@@ -9,7 +9,7 @@ CURLER ?= curl --silent -X POST http://127.0.0.1:12315/api \
                         -H "Content-Type: application/json"
 PAGE_NAME ?= "pull out"
 
-all: run
+all: build
 
 clean:
 	@rm $(OUTPUT_PATH)/*
@@ -35,7 +35,8 @@ stuff:
 	@open https://github.com/magnars/stasis
 
 build:
-	@lein build-site
+	@lein run -m stasis-test.core/export $(WHITHER)
+	@pushd $(WHITHER) && npx serve && popd
 
 run: grab-pages
 	@lein ring server
@@ -43,4 +44,4 @@ run: grab-pages
 test:
 	@lein test
 
-.PHONY: grab-pages grab-page test
+.PHONY: grab-pages test run all clean stuff
