@@ -38,6 +38,9 @@ build:
 	@lein run -m stasis-test.core/export $(WHITHER)
 	@pushd $(WHITHER) && npx serve && popd
 
+rebuild-ur-site: build
+	@pushd $(WHITHER) && git add . && git commit -m "feat: lol" && git push
+
 run: grab-pages
 	@lein ring server
 
