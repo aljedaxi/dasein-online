@@ -8,6 +8,7 @@ CURLER ?= curl --silent -X POST http://127.0.0.1:12315/api \
                         -H "Authorization: Bearer ${TOKEN}" \
                         -H "Content-Type: application/json"
 PAGE_NAME ?= "pull out"
+POST_PATH ?= https://daseinonline.xyz/
 
 all: build
 
@@ -21,8 +22,16 @@ $(OUTPUT_PATH)%.ndjson:
 
 $(PAGE_FILE).ndjson:
 	@$(CURLER) -d '{"method": "logseq.db.q", "args": ["(page-property type post)"]}' \
-	     | jq -c '.[] | {id, properties, name, uuid, originalName, file}' \
-	     > $@
+		| jq -c '.[]' \
+		| grep -v 'ver\":0' \
+		| jq -c '{id, properties, name, uuid, originalName, file}' \
+		> $@
+
+resources/twtxt: $(PAGE_FILE).ndjson
+	@ jq '"\(.properties | .updated // .published) $(POST_PATH)\(.properties.title | gsub("\\s+"; "-"))"' < $< \
+		| sed 's/"$$//' \
+		| sed 's/^"//' \
+		> $@
 
 file-names: $(PAGE_FILE).ndjson
 	@jq '.name' < $< > $@
