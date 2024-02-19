@@ -1,0 +1,134 @@
+import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+
+const radialScale = d3.scaleLinear().domain([0, 3]).range([0, 250])
+const ticks = [1, 2, 3]
+const colors = d3.scaleOrdinal(d3.schemeCategory10)
+const line = d3.line().x(d => d.x).y(d => d.y)
+
+const constructChart = props => {
+	const {
+		width,
+		height,
+		marginTop,
+		marginRight,
+		marginBottom,
+		marginLeft,
+		features,
+		cafeByFeature,
+	} = props
+	const angleToCoord = (angle, value) => {
+		const x = Math.cos(angle) * radialScale(value)
+		const y = Math.sin(angle) * radialScale(value)
+		return {x: width / 2 + x, y: height / 2 - y}
+	}
+	const getPathCoordinates = features => datum => {
+		const {color} = datum
+		const points = features.map((name, idx, {length}) => ({
+			color,
+			...angleToCoord((Math.PI / 2) + (2 * Math.PI * idx / length), datum[name] ?? 0)
+		}))
+		// loop the path all the way back around
+		points.push(points[0])
+		return points
+	}
+	const featurify = (name, idx, {length}) => {
+		const angle = (Math.PI / 2) + (2 * Math.PI * idx / length)
+		return {name, angle, lineCoord: angleToCoord(angle, 3), labelCoord: angleToCoord(angle, 3.3)}
+	}
+
+	const svg = d3.create("svg").attr("width", width).attr("height", height);
+
+	const featureData = features.map(featurify)
+
+	svg.selectAll('path')
+		.data(Object.values(cafeByFeature))
+		.join(enter =>
+			enter.append('path')
+			.datum(getPathCoordinates(features))
+			.attr('d', line)
+			.attr('stroke-width', 3)
+			.attr('stroke', ([{color}]) => color)
+			.attr('fill', ([{color}]) => color)
+			.attr('stroke-opacity', 1)
+			.attr('fill-opacity', 0.2))
+
+	svg.selectAll('circle')
+		.data(ticks)
+		.join(enter =>
+			enter.append('circle')
+				.attr('cx', width / 2)
+				.attr('cy', height / 2)
+				.attr('fill', 'none')
+				.attr('stroke', 'gray')
+				.attr('r', radialScale))
+
+	svg.selectAll('line')
+		.data(featureData)
+		.join(enter => 
+			enter.append('line')
+			.attr('x1', width / 2)
+			.attr('y1', height / 2)
+			.attr('x2', d => d.lineCoord.x)
+			.attr('y2', d => d.lineCoord.y)
+			.attr('stroke', 'black'))
+
+	svg.selectAll('.axislabel')
+		.data(featureData)
+		.join(enter => 
+			enter.append('text')
+			.attr('x', d => d.labelCoord.x)
+			.attr('y', d => d.labelCoord.y)
+			.text(d => d.name))
+
+	return svg
+}
+
+class SpiderGraph extends HTMLElement {
+	constructor() {
+		super()
+	}
+	connectedCallback() {
+		const axes = this.querySelector('datalist#axes')
+		const features = []
+		for (const {value} of axes.options) features.push(value)
+
+		const cafes = this.querySelector('datalist#cafes')
+		const cafeByFeature = {}
+		let idx = 0
+		for (const option of cafes.options) {
+			option.setAttribute('data-color', colors(idx++))
+			cafeByFeature[option.value] = option.dataset
+		}
+
+		const id = this.getAttribute('id') ?? 'spider'
+		const svg = constructChart({
+			features,
+			cafeByFeature,
+			width:        this.getAttribute("width") ?? 600,
+			height:       this.getAttribute("height") ?? 600,
+			marginTop:    this.getAttribute("marginTop") ?? 20,
+			marginRight:  this.getAttribute("marginRight") ?? 20,
+			marginBottom: this.getAttribute("marginBottom") ?? 20,
+			marginLeft:   this.getAttribute("marginLeft") ?? 20,
+		})
+		const figure = document.createElement('figure')
+		const svgNode = svg.node()
+		const title = document.createElement('title')
+		title.innerHTML = this.getAttribute('title')
+		title.id = `${id}-title`
+		svgNode.role = 'group'
+		svgNode.setAttribute('aria-labelledby', `${id}-title`)
+		svgNode.prepend(title)
+		figure.append(svgNode);
+		const ul = document.createElement('ul')
+		ul.innerHTML = [...Object.entries(cafeByFeature)].map(([k, {color}]) =>
+					`<li style="color: ${color}">${k}</li>`).join('')
+		const legend = document.createElement('figcaption')
+		legend.append(ul)
+		figure.append(legend)
+		this.append(figure)
+	}
+}
+
+customElements.define('spider-graph', SpiderGraph)
+

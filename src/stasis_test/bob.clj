@@ -13,14 +13,6 @@
   (->> keyed-col (mapcat f) (apply hash-map)))
 
 
-(defn shop-link [{:keys [id name] :as shop}]
-  (str (or id name)))
-
-
-(defn shop-url [{:keys [id] :as shop}]
-  (format "%s/index.html" (shop-link shop)))
-
-
 (defn as-data [k]
   (keyword (format "data-%s" (-> k str (subs 1)))))
 
@@ -30,8 +22,11 @@
 
 (defn map-list-item [{:keys [name summary id] :as shop}]
   [:li
-   [:h2 {:id id} [:a {:href (shop-link shop)} name]]
+   [:h2 {:id id} [:a {:href id} name]]
    summary])
+
+
+(defn stylesheet [href] [:link {:rel "stylesheet" :href href}])
 
 
 (defn layout
@@ -39,6 +34,9 @@
   [:html
    [:head
     headstuff
+    (stylesheet "https://unpkg.com/normalize.css@8.0.1/normalize.css")
+    (stylesheet "https://unpkg.com/concrete.css@2.1.1/concrete.css")
+    [:style "svg > text {fill: var(--fg);} figure {margin: 0}"]
     [:title title]]
    [:body
     [:main children]
@@ -61,22 +59,26 @@
                    [(as-data tag) summary]))]
     {:name (first-val name)
      :id id
+     :url (format "%s/index.html" id)
      :coords (s/split (first-val coords) #", ")
      :summary (first-val summary)
      :data-set summaries-datafied}))
+
 
 (defn parse-xml [{:keys [content] :as root}]
   (let [cafes (filter-on-key :tag :cafe content)]
     (map xml-thing-to-option cafes)))
 
+
 (def xml-cafes (parse-xml (xml/parse "./resources/cafes.xml")))
-(pprint/pprint xml-cafes)
+
 
 (def graph
   [:spider-graph
+   {:width 660 :title "radar graph of coffee shops by feature"}
    [:datalist#cafes
     (map 
-      (fn [{:keys [name data-set id]}] [:option.cafe (assoc data-set :id id) name])
+      (fn [{:keys [name data-set id]}] [:option.cafe (assoc data-set :value id ) name])
       xml-cafes)]
    [:datalist#axes
     (->> xml-cafes
@@ -108,7 +110,7 @@
 
 
 (def shop-pages
-  (map-map xml-cafes (fn [shop] [(shop-url shop) (shop-page shop)])))
+  (map-map xml-cafes (fn [shop] [(:url shop) (shop-page shop)])))
 
 
 (def about-me
