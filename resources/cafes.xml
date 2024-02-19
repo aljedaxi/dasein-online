@@ -1,0 +1,70 @@
+<root>
+	<cafe id="europeanBakery">
+		<name>European Bakery</name>
+		<coords>51.03766612184806, -114.07219196898996</coords>
+    <summary>a bakery that serves surprisingly good turkish coffee</summary>
+    <writeup>they only serve turkish coffee here.</writeup>
+		<impression>
+			<coffee summary="2">
+				<turkish>2</turkish>
+				<variety>1</variety>
+			</coffee>
+			<price summary="3">
+				<bakedGoods>
+					3
+					<desc>but really very reasonable when you consider the quality</desc>
+				</bakedGoods>
+				<variety>3</variety>
+			</price>
+			<food summary="2"/>
+			<vibes summary="2">
+				<summary>3</summary>
+				<conversation>2</conversation>
+			</vibes>
+		</impression>
+	</cafe>
+	<cafe id="t2722">
+		<name>T2722</name>
+		<coords> 51.043029027997044, -114.03897643163158 </coords>
+    <summary> genuinely world class. consider yourself fortunate we have access to this </summary>
+    <writeUp> genuinely world class. consider yourself fortunate we have access to this </writeUp>
+		<impression>
+			<coffee summary="3">
+				<americano>3</americano>
+			</coffee>
+			<price summary="1"/>
+			<food summary="3">
+				<bakedGoods>3</bakedGoods>
+			</food>
+			<vibes summary="3">
+				<apollonianAestheticism>3</apollonianAestheticism>
+			</vibes>
+		</impression>
+	</cafe>
+	<cafe id="mobSquad">
+		<name>MobSquad Cafe</name>
+		<coords>51.04511335156388, -114.06521097396123</coords>
+		<summary>excellent views</summary>
+		<impression>
+			<coffee summary="1">
+				<shortDrinks>1</shortDrinks>
+			</coffee>
+			<price summary="2"></price>
+			<vibes summary="2">
+				<view>3</view>
+			</vibes>
+		</impression>
+	</cafe>
+	<cafe id="treno">
+		<name>Treno</name>
+		<coords> 51.04388902810284, -114.0717094825913 </coords>
+    <summary> It's hard to think of something to say about Treno </summary>
+		<impression>
+			<coffee summary="1">
+				<espresso>1</espresso>
+			</coffee>
+			<price summary="2"></price>
+			<vibes summary="1"/>
+		</impression>
+	</cafe>
+</root>
