@@ -23,17 +23,17 @@ const constructChart = props => {
 	}
 	const getPathCoordinates = features => datum => {
 		const {color} = datum
-		const points = features.map((name, idx, {length}) => ({
+		const points = features.map(({value}, idx, {length}) => ({
 			color,
-			...angleToCoord((Math.PI / 2) + (2 * Math.PI * idx / length), datum[name] ?? 0)
+			...angleToCoord((Math.PI / 2) + (2 * Math.PI * idx / length), datum[value] ?? 0)
 		}))
 		// loop the path all the way back around
 		points.push(points[0])
 		return points
 	}
-	const featurify = (name, idx, {length}) => {
+	const featurify = ({label}, idx, {length}) => {
 		const angle = (Math.PI / 2) + (2 * Math.PI * idx / length)
-		return {name, angle, lineCoord: angleToCoord(angle, 3), labelCoord: angleToCoord(angle, 3.3)}
+		return {label, angle, lineCoord: angleToCoord(angle, 3), labelCoord: angleToCoord(angle, 3.3)}
 	}
 
 	const svg = d3.create("svg").attr("width", width).attr("height", height);
@@ -78,7 +78,7 @@ const constructChart = props => {
 			enter.append('text')
 			.attr('x', d => d.labelCoord.x)
 			.attr('y', d => d.labelCoord.y)
-			.text(d => d.name))
+			.text(d => d.label))
 
 	return svg
 }
@@ -90,7 +90,7 @@ class SpiderGraph extends HTMLElement {
 	connectedCallback() {
 		const axes = document.querySelector(this.getAttribute('features'))
 		const features = []
-		for (const {value} of axes.options) features.push(value)
+		for (const {value, label} of axes.options) features.push({value, label})
 
 		const cafes = document.querySelector(this.getAttribute('data'))
 		const cafeByFeature = {}
@@ -111,7 +111,6 @@ class SpiderGraph extends HTMLElement {
 			marginBottom: this.getAttribute("marginBottom") ?? 20,
 			marginLeft:   this.getAttribute("marginLeft") ?? 20,
 		})
-		const figure = document.createElement('figure')
 		const svgNode = svg.node()
 		const title = document.createElement('title')
 		title.innerHTML = this.getAttribute('title')
@@ -121,8 +120,7 @@ class SpiderGraph extends HTMLElement {
 		svgNode.setAttribute('aria-labelledby', `${id}-title`)
 		svgNode.prepend(title)
 
-		figure.append(svgNode);
-		this.prepend(figure)
+		this.prepend(svgNode)
 	}
 }
 
@@ -145,9 +143,7 @@ class SpiderLegend extends HTMLElement {
 				</h2>
 				${summary}
 			</li>`).join('')
-		const legend = document.createElement('figcaption')
-		legend.append(ul)
-		this.append(legend)
+		this.append(ul)
 	}
 }
 
