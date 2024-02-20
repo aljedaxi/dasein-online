@@ -67,14 +67,15 @@
      :data-set summaries-datafied}))
 
 
-
-
 (defn parse-xml [{:keys [content] :as root}]
+  (defn rejig-impression-feature
+    [{[content] :content {:keys [value title]} :attrs}]
+    {:value (or value content) :label content :title title})
   (let [{:keys [cafe impression-features]} (group-by :tag content)
         cafes (map xml-thing-to-option cafe)
         features (mapcat 
                    (fn [{:keys [content]}]
-                     (map (fn [{[content] :content}] content) content))
+                     (map rejig-impression-feature content))
                    impression-features)]
     {:cafes cafes :features features}))
 
@@ -87,7 +88,10 @@
 (def graph
   (seq
     [[:spider-graph
-      {:width 660 :title "radar graph of coffee shops by feature" :features "datalist#axes" :data "datalist#cafes"}]
+      {:width 660
+       :label "radar graph of coffee shops by feature"
+       :features "datalist#axes"
+       :data "datalist#cafes"}]
      [:spider-legend {:datalist "datalist#cafes"}]
      [:datalist#cafes
       (map 
@@ -97,7 +101,10 @@
            name])
         xml-cafes)]
      [:datalist#axes
-      (map (fn [val] [:option val]) features)]]))
+      (map
+        (fn [{:keys [label value title]}]
+          [:option {:value value :title title} label])
+        features)]]))
 
 
 (def coffee-bob

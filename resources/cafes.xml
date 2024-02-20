@@ -1,9 +1,10 @@
 <root>
 	<impression-features>
 		<option>coffee</option>
-		<option>price</option>
-		<option>food</option>
+		<option title="not normalized for quality">price</option>
+		<option title="including baked goods">food</option>
 		<option>vibes</option>
+		<option title="other than coffee" value="otherBevvies">drinks</option>
 	</impression-features>
 	<cafe id="europeanBakery">
 		<name>European Bakery</name>
@@ -45,6 +46,12 @@
 			<vibes summary="3">
 				<apollonianAestheticism>3</apollonianAestheticism>
 			</vibes>
+			<other-bevvies summary="3">
+				<tea>3</tea>
+				<hot-chocolate>3</hot-chocolate>
+				<misc>3</misc>
+				<variety>3</variety>
+			</other-bevvies>
 		</impression>
 	</cafe>
 	<cafe id="mobSquad">

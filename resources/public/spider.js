@@ -31,9 +31,9 @@ const constructChart = props => {
 		points.push(points[0])
 		return points
 	}
-	const featurify = ({label}, idx, {length}) => {
+	const featurify = ({label, title}, idx, {length}) => {
 		const angle = (Math.PI / 2) + (2 * Math.PI * idx / length)
-		return {label, angle, lineCoord: angleToCoord(angle, 3), labelCoord: angleToCoord(angle, 3.3)}
+		return {label, title, angle, lineCoord: angleToCoord(angle, 3), labelCoord: angleToCoord(angle, 3.3)}
 	}
 
 	const svg = d3.create("svg").attr("width", width).attr("height", height);
@@ -78,6 +78,7 @@ const constructChart = props => {
 			enter.append('text')
 			.attr('x', d => d.labelCoord.x)
 			.attr('y', d => d.labelCoord.y)
+			.attr('title', d => d.title)
 			.text(d => d.label))
 
 	return svg
@@ -88,9 +89,7 @@ class SpiderGraph extends HTMLElement {
 		super()
 	}
 	connectedCallback() {
-		const axes = document.querySelector(this.getAttribute('features'))
-		const features = []
-		for (const {value, label} of axes.options) features.push({value, label})
+		const featureList = document.querySelector(this.getAttribute('features'))
 
 		const cafes = document.querySelector(this.getAttribute('data'))
 		const cafeByFeature = {}
@@ -102,7 +101,7 @@ class SpiderGraph extends HTMLElement {
 
 		const id = this.getAttribute('id') ?? 'spider'
 		const svg = constructChart({
-			features,
+			features: [...featureList.options],
 			cafeByFeature,
 			width:        this.getAttribute("width") ?? 600,
 			height:       this.getAttribute("height") ?? 600,
@@ -113,7 +112,7 @@ class SpiderGraph extends HTMLElement {
 		})
 		const svgNode = svg.node()
 		const title = document.createElement('title')
-		title.innerHTML = this.getAttribute('title')
+		title.innerHTML = this.getAttribute('label')
 		title.id = `${id}-title`
 
 		svgNode.role = 'group'
