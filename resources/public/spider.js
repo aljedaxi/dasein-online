@@ -70,7 +70,7 @@ const constructChart = props => {
 			.attr('y1', height / 2)
 			.attr('x2', d => d.lineCoord.x)
 			.attr('y2', d => d.lineCoord.y)
-			.attr('stroke', 'black'))
+			.attr('stroke', 'gray'))
 
 	svg.selectAll('.axislabel')
 		.data(featureData)

@@ -107,7 +107,7 @@
      :children 
      (seq 
        [[:header [:h1 "the calgary coffee bob"]
-         [:p "a "]]
+         [:p "a celebration of any aspect of anywhere that serves coffee"]]
         [:section graph]])}))
 
 
