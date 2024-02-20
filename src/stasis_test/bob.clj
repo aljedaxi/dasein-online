@@ -62,7 +62,7 @@
     {:name (first-val name)
      :id id
      :url (format "%s/index.html" id)
-     :coords (s/split (first-val coords) #", ")
+     :coords (if coords (s/split (first-val coords) #", ") coords)
      :summary (first-val summary)
      :data-set summaries-datafied}))
 

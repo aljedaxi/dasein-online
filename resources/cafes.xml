@@ -30,6 +30,27 @@
 			</vibes>
 		</impression>
 	</cafe>
+	<cafe class="paradigm-spark">
+		<name>Paradigm Spark</name>
+		<summary>A glowing example of where single-minded devotion can take you</summary>
+		<writeUp>A glowing example of where single-minded devotion can take you</writeUp>
+		<impression timestamp="2024-02-11">
+			<coffee summary="3">
+				<shortDrinks>3</shortDrinks>
+				<flights>3</flights>
+				<pourOvers>3</pourOvers>
+			</coffee>
+			<price summary="2"/>
+			<vibes summary="2">
+				<apollonianAestheticism>3</apollonianAestheticism>
+			</vibes>
+			<other-bevvies summary="3">
+				<hot-chocolate>3</hot-chocolate>
+				<misc>3</misc>
+				<variety>3</variety>
+			</other-bevvies>
+		</impression>
+	</cafe>
 	<cafe id="t2722">
 		<name>T2722</name>
 		<coords> 51.043029027997044, -114.03897643163158 </coords>
