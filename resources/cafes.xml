@@ -30,7 +30,7 @@
 			</vibes>
 		</impression>
 	</cafe>
-	<cafe class="paradigm-spark">
+	<cafe id="paradigm-spark">
 		<name>Paradigm Spark</name>
 		<summary>A glowing example of where single-minded devotion can take you</summary>
 		<writeUp>A glowing example of where single-minded devotion can take you</writeUp>
