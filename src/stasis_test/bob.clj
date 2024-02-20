@@ -67,12 +67,21 @@
      :data-set summaries-datafied}))
 
 
+
+
 (defn parse-xml [{:keys [content] :as root}]
-  (let [cafes (filter-on-key :tag :cafe content)]
-    (map xml-thing-to-option cafes)))
+  (let [{:keys [cafe impression-features]} (group-by :tag content)
+        cafes (map xml-thing-to-option cafe)
+        features (mapcat 
+                   (fn [{:keys [content]}]
+                     (map (fn [{[content] :content}] content) content))
+                   impression-features)]
+    {:cafes cafes :features features}))
 
-
-(def xml-cafes (parse-xml (xml/parse "./resources/cafes.xml")))
+(def file-data (xml/parse "./resources/cafes.xml"))
+(def stuff (parse-xml file-data))
+(def xml-cafes (:cafes stuff))
+(def features (:features stuff))
 
 
 (def graph
@@ -88,8 +97,7 @@
            name])
         xml-cafes)]
      [:datalist#axes
-      (->> xml-cafes (map :data-set) (mapcat keys) set (map de-data)
-           (map (fn [val] [:option val])))]]))
+      (map (fn [val] [:option val]) features)]]))
 
 
 (def coffee-bob
@@ -99,7 +107,7 @@
      :children 
      (seq 
        [[:header [:h1 "the calgary coffee bob"]
-         [:p "for the snob, and bob"]]
+         [:p "a "]]
         [:section graph]])}))
 
 

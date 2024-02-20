@@ -1,10 +1,16 @@
 <root>
+	<impression-features>
+		<option>coffee</option>
+		<option>price</option>
+		<option>food</option>
+		<option>vibes</option>
+	</impression-features>
 	<cafe id="europeanBakery">
 		<name>European Bakery</name>
 		<coords>51.03766612184806, -114.07219196898996</coords>
     <summary>a bakery that serves surprisingly good turkish coffee</summary>
     <writeup>they only serve turkish coffee here.</writeup>
-		<impression>
+		<impression timestamp="distant past">
 			<coffee summary="2">
 				<turkish>2</turkish>
 				<variety>1</variety>
@@ -28,7 +34,7 @@
 		<coords> 51.043029027997044, -114.03897643163158 </coords>
     <summary> genuinely world class. consider yourself fortunate we have access to this </summary>
     <writeUp> genuinely world class. consider yourself fortunate we have access to this </writeUp>
-		<impression>
+		<impression timestamp="2024-02-18">
 			<coffee summary="3">
 				<americano>3</americano>
 			</coffee>
@@ -45,7 +51,7 @@
 		<name>MobSquad Cafe</name>
 		<coords>51.04511335156388, -114.06521097396123</coords>
 		<summary>excellent views</summary>
-		<impression>
+		<impression timestamp="distant past">
 			<coffee summary="1">
 				<shortDrinks>1</shortDrinks>
 			</coffee>
@@ -59,7 +65,8 @@
 		<name>Treno</name>
 		<coords> 51.04388902810284, -114.0717094825913 </coords>
     <summary> It's hard to think of something to say about Treno </summary>
-		<impression>
+		<impression timestamp="distant past">
+			<summary>It's hard to come up with something to say about Treno. It feels like a ghost kitchen, something dreamed up by a rich Torontonian as their idea of what a Calgarian yuppie would like to live on top of. it's airspace.</summary>
 			<coffee summary="1">
 				<espresso>1</espresso>
 			</coffee>
