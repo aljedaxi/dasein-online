@@ -37,8 +37,6 @@
     content]]
   (merge {:uuid uuid :action action :tags tags :published published :type the-type :title title :content content}))
 
-(defmacro shmap [& ss] `(zipmap [~@(map str ss)] [~@ss]))
-
 (defn dl [theMap] [:dl (mapcat (fn [[k v]] [[:dt k] [:dd v]]) theMap)])
 
 (defn handleContent [content]

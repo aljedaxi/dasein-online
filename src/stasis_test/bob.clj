@@ -36,14 +36,16 @@
     headstuff
     (stylesheet "https://unpkg.com/normalize.css@8.0.1/normalize.css")
     (stylesheet "https://unpkg.com/concrete.css@2.1.1/concrete.css")
-    [:style "svg > text {fill: var(--fg);} figure {margin: 0}"]
+    [:style "svg > text {fill: var(--fg);} figure {margin: 0} header {padding: 8rem 0}"]
     [:title title]]
    [:body
-    [:main children]
-    [:footer 
-     [:a {:href "/coffee-bob/about-me"} "about me"]
-     "&nbsp;"
-     [:a {:href "/coffee-bob"} "home"]]]])
+    [:main
+     children
+     [:hr]
+     [:footer 
+      [:a {:href "/coffee-bob/about-me"} "about me"]
+      "&nbsp;"
+      [:a {:href "/coffee-bob"} "home"]]]]])
 
 
 (defn first-val [tag-array] (-> tag-array first (get :content) first s/trim))
@@ -74,19 +76,20 @@
 
 
 (def graph
-  [:spider-graph
-   {:width 660 :title "radar graph of coffee shops by feature"}
-   [:datalist#cafes
-    (map 
-      (fn [{:keys [name data-set id]}] [:option.cafe (assoc data-set :value id ) name])
-      xml-cafes)]
-   [:datalist#axes
-    (->> xml-cafes
-         (map :data-set)
-         (mapcat keys)
-         set
-         (map de-data)
-         (map (fn [val] [:option val])))]])
+  (seq
+    [[:spider-graph
+      {:width 660 :title "radar graph of coffee shops by feature" :features "datalist#axes" :data "datalist#cafes"}]
+     [:spider-legend {:datalist "datalist#cafes"}]
+     [:datalist#cafes
+      (map 
+        (fn [{:keys [name data-set id url summary]}]
+          [:option.cafe
+           (assoc data-set :value id :data-href url :data-summary summary)
+           name])
+        xml-cafes)]
+     [:datalist#axes
+      (->> xml-cafes (map :data-set) (mapcat keys) set (map de-data)
+           (map (fn [val] [:option val])))]]))
 
 
 (def coffee-bob
@@ -95,15 +98,12 @@
      :headstuff [:script {:type "module" :src "/public/spider.js"}]
      :children 
      (seq 
-       [[:h1 "the calgary coffee bob"]
-        [:p "for the snob, and bob"]
-        graph
-        [:ul (map map-list-item xml-cafes)]])}))
+       [[:header [:h1 "the calgary coffee bob"]
+         [:p "for the snob, and bob"]]
+        [:section graph]])}))
 
 
-(defn shop-page 
-  "This generates the page that each individual shop gets"
-  [{:keys [name write-up summary] :as shop}]
+(defn shop-page [{:keys [name write-up summary] :as shop}]
   (layout
     {:title name
      :children (or write-up summary)}))

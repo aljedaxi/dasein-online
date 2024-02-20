@@ -88,11 +88,11 @@ class SpiderGraph extends HTMLElement {
 		super()
 	}
 	connectedCallback() {
-		const axes = this.querySelector('datalist#axes')
+		const axes = document.querySelector(this.getAttribute('features'))
 		const features = []
 		for (const {value} of axes.options) features.push(value)
 
-		const cafes = this.querySelector('datalist#cafes')
+		const cafes = document.querySelector(this.getAttribute('data'))
 		const cafeByFeature = {}
 		let idx = 0
 		for (const option of cafes.options) {
@@ -116,19 +116,40 @@ class SpiderGraph extends HTMLElement {
 		const title = document.createElement('title')
 		title.innerHTML = this.getAttribute('title')
 		title.id = `${id}-title`
+
 		svgNode.role = 'group'
 		svgNode.setAttribute('aria-labelledby', `${id}-title`)
 		svgNode.prepend(title)
+
 		figure.append(svgNode);
+		this.prepend(figure)
+	}
+}
+
+class SpiderLegend extends HTMLElement {
+	constructor() {
+		super()
+	}
+	connectedCallback() {
+		const cafes = document.querySelector(this.getAttribute('datalist'))
+		const cafeByFeature = {}
+		for (const option of cafes.options) {
+			cafeByFeature[option.value] = option.dataset
+			cafeByFeature[option.value].label = option.label
+		}
 		const ul = document.createElement('ul')
-		ul.innerHTML = [...Object.entries(cafeByFeature)].map(([k, {color}]) =>
-					`<li style="color: ${color}">${k}</li>`).join('')
+		ul.innerHTML = [...Object.values(cafeByFeature)].map(({color, label, href, summary}) =>
+			`<li>
+				<h2 style="color: ${color}">
+					<a style="color: inherit" href="${href}">${label}</a>
+				</h2>
+				${summary}
+			</li>`).join('')
 		const legend = document.createElement('figcaption')
 		legend.append(ul)
-		figure.append(legend)
-		this.append(figure)
+		this.append(legend)
 	}
 }
 
 customElements.define('spider-graph', SpiderGraph)
-
+customElements.define('spider-legend', SpiderLegend)
