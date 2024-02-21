@@ -37,6 +37,7 @@
     headstuff
     (stylesheet "https://unpkg.com/normalize.css@8.0.1/normalize.css")
     (stylesheet "https://unpkg.com/concrete.css@2.1.1/concrete.css")
+    [:base {:href "/coffee-bob/"}]
     [:style "svg > text {fill: var(--fg);} figure {margin: 0} header {padding: 8rem 0}"]
     [:title title]]
    [:body
