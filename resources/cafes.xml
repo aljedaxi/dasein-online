@@ -23,10 +23,10 @@
 				<variety>1</variety>
 			</coffee>
 			<price summary="3">
-				<bakedGoods>
+				<baked-goods>
 					3
 					<desc>but really very reasonable when you consider the quality</desc>
-				</bakedGoods>
+				</baked-goods>
 				<variety>3</variety>
 			</price>
 			<food summary="2"/>
@@ -38,17 +38,17 @@
 	</cafe>
 	<cafe id="paradigm-spark">
 		<name>Paradigm Spark</name>
-		<summary>A glowing example of where single-minded devotion can take you</summary>
-		<write-up>A glowing example of where single-minded devotion can take you</write-up>
+		<summary>a glowing example of where single-minded devotion can take you</summary>
+		<write-up>a glowing example of where single-minded devotion can take you</write-up>
 		<impression timestamp="2024-02-11">
 			<coffee summary="3">
-				<shortDrinks>3</shortDrinks>
+				<short-drinks>3</short-drinks>
 				<flights>3</flights>
-				<pourOvers>3</pourOvers>
+				<pour-overs>3</pour-overs>
 			</coffee>
 			<price summary="2"/>
 			<vibes summary="2">
-				<apollonianAestheticism>3</apollonianAestheticism>
+				<apollonian-aestheticism>3</apollonian-aestheticism>
 			</vibes>
 			<other-bevvies summary="3">
 				<hot-chocolate>3</hot-chocolate>
@@ -92,7 +92,7 @@
 		</write-up>
 		<impression timestamp="distant past">
 			<coffee summary="1">
-				<shortDrinks>1</shortDrinks>
+				<short-drinks>1</short-drinks>
 			</coffee>
 			<price summary="2"></price>
 			<vibes summary="2">
@@ -103,7 +103,7 @@
 	<cafe id="treno">
 		<name>Treno</name>
 		<coords> 51.04388902810284, -114.0717094825913 </coords>
-    <summary> It's hard to think of something to say about Treno </summary>
+    <summary> it's hard to think of something to say about Treno </summary>
 		<write-up>my cat always used to say: &lt;q&gt;better to say nothing at all than something rude. focus on the positives!&lt;/q&gt;. to honour his cat-swag, i'll end the review here.</write-up>
 		<impression timestamp="distant past">
 			<coffee summary="1">
