@@ -6,11 +6,17 @@
 		<option>vibes</option>
 		<option title="other than coffee" value="otherBevvies">drinks</option>
 	</impression-features>
-	<cafe id="europeanBakery">
+	<cafe id="european-bakery">
 		<name>European Bakery</name>
 		<coords>51.03766612184806, -114.07219196898996</coords>
     <summary>a bakery that serves surprisingly good turkish coffee</summary>
-    <writeup>they only serve turkish coffee here.</writeup>
+		<write-up>
+			the European bakery is, foremostly, a eastern European bakery. they advertise the Turkish coffee on a small sign above the baked goods in the corner of the cafe. it's absolutely one of the best in downtown, and only about 3 dollars.
+
+			the baked goods run the gamut from flat breads, northern european loaves, baguettes, and pretzels, to savory stuffed goods like [bureks](https://www.thespruceeats.com/traditional-yugoslavian-rolled-burek-borek-recipe-1805900). on the right side of the store are imports from all around Europe. everything is excellent and very reasonably priced.
+
+			all in all, this is a hidden gem, and the reason i made this website.
+		</write-up>
 		<impression timestamp="distant past">
 			<coffee summary="2">
 				<turkish>2</turkish>
@@ -33,7 +39,7 @@
 	<cafe id="paradigm-spark">
 		<name>Paradigm Spark</name>
 		<summary>A glowing example of where single-minded devotion can take you</summary>
-		<writeUp>A glowing example of where single-minded devotion can take you</writeUp>
+		<write-up>A glowing example of where single-minded devotion can take you</write-up>
 		<impression timestamp="2024-02-11">
 			<coffee summary="3">
 				<shortDrinks>3</shortDrinks>
@@ -55,7 +61,9 @@
 		<name>T2722</name>
 		<coords> 51.043029027997044, -114.03897643163158 </coords>
     <summary> genuinely world class. consider yourself fortunate we have access to this </summary>
-    <writeUp> genuinely world class. consider yourself fortunate we have access to this </writeUp>
+		<write-up>
+			T2722 is the kinda place where they ship in very particular wheat from France for the gluten content. 
+		</write-up>
 		<impression timestamp="2024-02-18">
 			<coffee summary="3">
 				<americano>3</americano>
@@ -79,6 +87,9 @@
 		<name>MobSquad Cafe</name>
 		<coords>51.04511335156388, -114.06521097396123</coords>
 		<summary>excellent views</summary>
+		<write-up>
+			absolutely the best views in the city. if you can sneak in with a thermos of coffee from elsewhere, you've got the best of both worlds. inside, it feels like the decor was decided by an up and coming oil-sands failson with lots of capital and little taste.
+		</write-up>
 		<impression timestamp="distant past">
 			<coffee summary="1">
 				<shortDrinks>1</shortDrinks>
@@ -93,13 +104,12 @@
 		<name>Treno</name>
 		<coords> 51.04388902810284, -114.0717094825913 </coords>
     <summary> It's hard to think of something to say about Treno </summary>
+		<write-up>my cat always used to say: &lt;q&gt;better to say nothing at all than something rude. focus on the positives!&lt;/q&gt;. to honour his cat-swag, i'll end the review here.</write-up>
 		<impression timestamp="distant past">
-			<summary>It's hard to come up with something to say about Treno. It feels like a ghost kitchen, something dreamed up by a rich Torontonian as their idea of what a Calgarian yuppie would like to live on top of. it's airspace.</summary>
 			<coffee summary="1">
 				<espresso>1</espresso>
 			</coffee>
 			<price summary="2"></price>
-			<vibes summary="1"/>
 		</impression>
 	</cafe>
 </root>

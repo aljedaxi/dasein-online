@@ -2,6 +2,7 @@
   (:require [clojure.data.json :as json]
             [clojure.xml :as xml]
             [clojure.string :as s]
+            [markdown-to-hiccup.core :as m]
             [clojure.pprint :as pprint]))
 
 
@@ -48,12 +49,12 @@
       [:a {:href "/coffee-bob"} "home"]]]]])
 
 
-(defn first-val [tag-array] (-> tag-array first (get :content) first s/trim))
+(defn first-val [tag-array] (some-> tag-array first (get :content) first s/trim))
 
 
 (defn xml-thing-to-option [{{:keys [id]} :attrs content :content}]
   (let [mapped-tags (group-by #(get % :tag) content)
-        {:keys [name coords summary impression]} mapped-tags
+        {:keys [name coords summary impression write-up]} mapped-tags
         impressions (-> impression first :content)
         summaries-datafied
         (map-map impressions
@@ -61,7 +62,8 @@
                    [(as-data tag) summary]))]
     {:name (first-val name)
      :id id
-     :url (format "%s/index.html" id)
+     :write-up (first-val write-up)
+     :url (format "%s/" id)
      :coords (if coords (s/split (first-val coords) #", ") coords)
      :summary (first-val summary)
      :data-set summaries-datafied}))
@@ -83,6 +85,9 @@
 (def stuff (parse-xml file-data))
 (def xml-cafes (:cafes stuff))
 (def features (:features stuff))
+(def feature-options
+  (map (fn [{:keys [label value title]}] [:option {:value value :title title} label])
+       features))
 
 
 (def graph
@@ -90,7 +95,7 @@
     [[:spider-graph
       {:width 660
        :label "radar graph of coffee shops by feature"
-       :features "datalist#axes"
+       :features "datalist#features"
        :data "datalist#cafes"}]
      [:spider-legend {:datalist "datalist#cafes"}]
      [:datalist#cafes
@@ -100,11 +105,7 @@
            (assoc data-set :value id :data-href url :data-summary summary)
            name])
         xml-cafes)]
-     [:datalist#axes
-      (map
-        (fn [{:keys [label value title]}]
-          [:option {:value value :title title} label])
-        features)]]))
+     [:datalist#features feature-options]]))
 
 
 (def coffee-bob
@@ -119,9 +120,28 @@
 
 
 (defn shop-page [{:keys [name write-up summary] :as shop}]
+  (def graph
+    (let [{:keys [name data-set id url summary]} shop]
+      [:spider-graph
+       {:width 660
+        :label "radar graph of coffee shops by feature"
+        :features "datalist#features"
+        :data "datalist#cafes"}
+      [:datalist#cafes
+       [:option.cafe
+        (assoc data-set :value id :data-href url :data-summary summary)
+        name]]
+     [:datalist#features feature-options]]))
+
   (layout
     {:title name
-     :children (or write-up summary)}))
+     :headstuff [:script {:type "module" :src "/public/spider.js"}]
+     :children
+     (seq
+       [[:header [:h1 name]
+         summary]
+        graph
+        (some->> write-up m/md->hiccup m/component)])}))
 
 
 (def shop-pages

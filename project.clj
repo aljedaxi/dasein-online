@@ -9,6 +9,7 @@
                  [hiccup "2.0.0-RC1"]
                  [optimus "2023-02-08"]
                  [markdown-clj "1.11.4"]
+                 [markdown-to-hiccup "0.6.2"]
                  [stasis "2023.06.03"]]
   :plugins [[lein-ring "0.12.5"]]
   :ring {:handler stasis-test.core/app}
