@@ -62,7 +62,7 @@
     {:name (first-val name)
      :id id
      :write-up (first-val write-up)
-     :url (format "%s/" id)
+     :url (format "coffeehouse/%s/" id)
      :coords (if coords (s/split (first-val coords) #", ") coords)
      :summary (first-val summary)
      :data-set summaries-datafied}))
@@ -80,6 +80,7 @@
 
 (def file-data (xml/parse "./resources/cafes.xml"))
 (def xml-cafes (parse-xml file-data))
+
 
 (defn parse-features [{:keys [content] :as root}]
   (defn parse-sub-features [content]
@@ -99,12 +100,14 @@
   (let [{:keys [feature]} (group-by :tag content)]
     (map handle-feature feature)))
 
+
 (def new-features (->> "./resources/specs.xml" xml/parse parse-features))
 (def features
   (->> new-features
        (filter (fn [{:keys [class]}] (not ((or class #{}) "hidden"))))
        (map (fn [{:keys [value label summary id]}]
               {:value value :label label :title summary :id id}))))
+
 
 (def feature-options
   (map (fn [{:keys [label value title]}] [:option {:value value :title title} label])
