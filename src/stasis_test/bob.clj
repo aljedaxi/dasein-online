@@ -5,6 +5,9 @@
             [markdown-to-hiccup.core :as m]
             [clojure.pprint :as pprint]))
 
+(defmacro depn [func-name threading-macro & args]
+  `(defn ~func-name [arg#] (~threading-macro arg# ~@args)))
+
 
 (defn filter-on-key [keyName keyVal xs]
   (filter (fn [x] (= keyVal (get x keyName))) xs))
@@ -14,11 +17,9 @@
   (->> keyed-col (mapcat f) (apply hash-map)))
 
 
-(defn as-data [k]
-  (keyword (format "data-%s" (-> k str (subs 1)))))
-
-
-(defn de-data [k] (-> k str (subs 6)))
+(depn datafy ->> (format "data-%s"))
+(depn as-data -> str (subs 1) datafy keyword)
+(depn first-val some-> first (get :content) first s/trim)
 
 
 (defn map-list-item [{:keys [name summary id] :as shop}]
@@ -50,11 +51,8 @@
       [:a {:href "/coffee-bob"} "home"]]]]])
 
 
-(defn first-val [tag-array] (some-> tag-array first (get :content) first s/trim))
-
-
 (defn xml-thing-to-option [{{:keys [id]} :attrs content :content}]
-  (let [mapped-tags (group-by #(get % :tag) content)
+  (let [mapped-tags (group-by :tag content)
         {:keys [name coords summary impression write-up]} mapped-tags
         impressions (-> impression first :content)
         summaries-datafied
@@ -74,18 +72,40 @@
   (defn rejig-impression-feature
     [{[content] :content {:keys [value title]} :attrs}]
     {:value (or value content) :label content :title title})
-  (let [{:keys [cafe impression-features]} (group-by :tag content)
-        cafes (map xml-thing-to-option cafe)
-        features (mapcat 
-                   (fn [{:keys [content]}]
-                     (map rejig-impression-feature content))
-                   impression-features)]
-    {:cafes cafes :features features}))
+
+  (let [{:keys [cafe]} (group-by :tag content)
+        cafes (map xml-thing-to-option cafe)]
+    cafes))
+
 
 (def file-data (xml/parse "./resources/cafes.xml"))
-(def stuff (parse-xml file-data))
-(def xml-cafes (:cafes stuff))
-(def features (:features stuff))
+(def xml-cafes (parse-xml file-data))
+
+(defn parse-features [{:keys [content] :as root}]
+  (defn parse-sub-features [content]
+    (let [{summary nil sub-features :feature} (group-by :tag content)]
+      {:summary (some-> summary first s/trim)
+       :sub-features (map handle-feature sub-features)}))
+
+  (defn handle-feature [{:keys [content] {:keys [id class label value]} :attrs}]
+    (let [{:keys [summary sub-features]} (parse-sub-features content)]
+      {:id id
+       :class (some-> class (s/split #" ") set)
+       :label (or label value id)
+       :value (or value id)
+       :summary summary
+       :sub-features sub-features}))
+
+  (let [{:keys [feature]} (group-by :tag content)]
+    (map handle-feature feature)))
+
+(def new-features (->> "./resources/specs.xml" xml/parse parse-features))
+(def features
+  (->> new-features
+       (filter (fn [{:keys [class]}] (not ((or class #{}) "hidden"))))
+       (map (fn [{:keys [value label summary id]}]
+              {:value value :label label :title summary :id id}))))
+
 (def feature-options
   (map (fn [{:keys [label value title]}] [:option {:value value :title title} label])
        features))

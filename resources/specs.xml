@@ -1,0 +1,38 @@
+<root>
+	<feature id="coffee" class="coffee various priced">
+		<feature id="turkish" class="priced"/>
+		<feature id="espresso" class="priced">espresso, black</feature>
+		<feature id="short-drinks" class="priced">
+			your cortados, macchiatos, cappuccinos, &amp;c.
+		</feature>
+		<feature id="americano" class="priced">and/or long blacks and/or the Alex Yingjian</feature>
+		<feature id="flights" class="priced">
+			a few different beans or brews, grouped together
+		</feature>
+		<feature id="pour-overs" class="priced">
+			when the barista (or a machine) takes a kettle and brews a single cup at a time. brewer agnostic, aeropress is in the game.
+		</feature>
+	</feature>
+	<feature id="misc" class="hidden">
+		<feature id="power">how many seats have outlets?</feature>
+	</feature>
+	<feature id="price">
+		not normalized for quality
+	</feature>
+	<feature id="food" class="various priced">
+		including baked goods
+	</feature>
+	<feature id="vibes">
+		definitely the vaguest category. an elder millennial/young gen x-er might call this the brand: everything from the décor to the view to the service
+		<feature id="view">what you can see out the window</feature>
+		<feature id="apollonian-aestheticism">
+			something a bit difficult to pin down. people that take coffee very seriously. usually favoring high clarity over, say, mouthfeel.
+		</feature>
+	</feature>
+	<feature value="otherBevvies" label="drinks" id="other-bevvies" class="various priced">
+		anything other than coffee: tea, hot chocolate, &amp;c
+		<!-- TODO haldi dood section -->
+		<feature id="hot-chocolate"></feature>
+		<feature id="misc"></feature>
+	</feature>
+</root>

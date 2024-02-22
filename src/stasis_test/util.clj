@@ -28,6 +28,10 @@
        (apply hash-map)))
 
 
+(defn map-map [keyed-col f]
+  (->> keyed-col (mapcat f) (apply hash-map)))
+
+
 (defmacro shmap [& ss] `(zipmap [~@(map keyword ss)] [~@ss]))
 
 
