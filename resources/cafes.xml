@@ -12,9 +12,9 @@
 		</write-up>
 		<impression timestamp="distant past">
 			<coffee summary="2">
+				<price>3</price>
 				<turkish>
 					2
-					<price>3</price>
 				</turkish>
 				<variety>1</variety>
 			</coffee>
@@ -24,7 +24,6 @@
 			</price>
 			<food summary="2"/>
 			<vibes summary="2">
-				<summary>3</summary>
 				<conversation>2</conversation>
 			</vibes>
 		</impression>
@@ -38,6 +37,8 @@
 				<short-drinks>3</short-drinks>
 				<flights>3</flights>
 				<pour-overs>3</pour-overs>
+				<variety>3</variety>
+				<price>2</price>
 			</coffee>
 			<price summary="2"/>
 			<vibes summary="2">
@@ -52,10 +53,10 @@
 				<misc>3</misc>
 				<variety>3</variety>
 			</other-bevvies>
-			<misc>
+			<misc summary="0">
 				<power>
 						3
-					<desc>basically all seating in the cafe has power</desc>
+					<summary>basically all seating in the cafe has power</summary>
 				</power>
 			</misc>
 		</impression>
@@ -70,6 +71,9 @@
 		<impression timestamp="2024-02-18">
 			<coffee summary="3">
 				<americano>3</americano>
+				<price>2</price>
+				<short-drinks>3</short-drinks>
+				<variety>3</variety>
 			</coffee>
 			<price summary="1"/>
 			<food summary="3">

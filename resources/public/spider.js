@@ -1,9 +1,9 @@
-import * as d3 from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+import {create, scaleLinear, scaleOrdinal, line as d3Line, schemeCategory10} from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
-const radialScale = d3.scaleLinear().domain([0, 3]).range([0, 250])
+const radialScale = scaleLinear().domain([0, 3]).range([0, 250])
 const ticks = [1, 2, 3]
-const colors = d3.scaleOrdinal(d3.schemeCategory10)
-const line = d3.line().x(d => d.x).y(d => d.y)
+const colors = scaleOrdinal(schemeCategory10)
+const line = d3Line().x(d => d.x).y(d => d.y)
 
 const constructChart = props => {
 	const {
@@ -29,16 +29,17 @@ const constructChart = props => {
 		}))
 		// loop the path all the way back around
 		points.push(points[0])
+		console.log({points, features: features.map(f => f.value), datum})
 		return points
 	}
-	const featurify = ({label, title}, idx, {length}) => {
+
+	const svg = create("svg").attr("width", width).attr("height", height);
+
+	const featureData = features.map(({label, title, dataset}, idx, {length}) => {
+		const {href} = dataset
 		const angle = (Math.PI / 2) + (2 * Math.PI * idx / length)
-		return {label, title, angle, lineCoord: angleToCoord(angle, 3), labelCoord: angleToCoord(angle, 3.3)}
-	}
-
-	const svg = d3.create("svg").attr("width", width).attr("height", height);
-
-	const featureData = features.map(featurify)
+		return {label, title, href, angle, lineCoord: angleToCoord(angle, 3), labelCoord: angleToCoord(angle, 3.3)}
+	})
 
 	svg.selectAll('path')
 		.data(Object.values(cafeByFeature))
@@ -75,10 +76,13 @@ const constructChart = props => {
 	svg.selectAll('.axislabel')
 		.data(featureData)
 		.join(enter => 
-			enter.append('text')
+			enter
+			.append('a')
+			.attr('href', d => d.href)
+			.append('text')
 			.attr('x', d => d.labelCoord.x)
 			.attr('y', d => d.labelCoord.y)
-			.attr('title', d => d.title)
+			.attr('text-anchor', 'middle')
 			.text(d => d.label))
 
 	return svg
@@ -119,6 +123,23 @@ class SpiderGraph extends HTMLElement {
 		svgNode.setAttribute('aria-labelledby', `${id}-title`)
 		svgNode.prepend(title)
 
+		const style = document.createElement('style')
+		style.textContent = `
+			@namespace svg url(http://www.w3.org/2000/svg);
+
+			svg|a:link,
+			svg|a:visited {
+				cursor: pointer;
+			}
+
+			svg|a text,
+			text svg|a {
+				fill: var(--fg);
+				text-decoration: underline;
+			}
+		`
+
+		this.prepend(style)
 		this.prepend(svgNode)
 	}
 }

@@ -3,33 +3,25 @@
             [clojure.xml :as xml]
             [clojure.string :as s]
             [markdown-to-hiccup.core :as m]
+            [stasis-test.util :as u]
+            [clojure.java.io]
+            [stasis-test.bob-utils
+             :refer [cafe->option map-map depn feature->option cafe->option-ns parse-features parse-cafes]]
+            [clojure.edn :as edn]
             [clojure.pprint :as pprint]))
 
-(defmacro depn [func-name threading-macro & args]
-  `(defn ~func-name [arg#] (~threading-macro arg# ~@args)))
 
-
-(defn filter-on-key [keyName keyVal xs]
-  (filter (fn [x] (= keyVal (get x keyName))) xs))
-
-
-(defn map-map [keyed-col f]
-  (->> keyed-col (mapcat f) (apply hash-map)))
-
-
-(depn datafy ->> (format "data-%s"))
-(depn as-data -> str (subs 1) datafy keyword)
-(depn first-val some-> first (get :content) first s/trim)
-
-
-(defn map-list-item [{:keys [name summary id] :as shop}]
-  [:li
-   [:h2 {:id id} [:a {:href id} name]]
-   summary])
+(defn without-div [hiccup]
+  (let [[tag opts children] (m/component hiccup)]
+    children))
 
 
 (defn stylesheet [href] [:link {:rel "stylesheet" :href href}])
 
+
+(def spider-stuff
+  (list [:style "svg > text {fill: var(--fg);}"]
+        [:script {:type "module" :src "/public/spider.js"}]))
 
 (defn layout
   [{:keys [children headstuff title]}]
@@ -38,8 +30,9 @@
     headstuff
     (stylesheet "https://unpkg.com/normalize.css@8.0.1/normalize.css")
     (stylesheet "https://unpkg.com/concrete.css@2.1.1/concrete.css")
+    [:meta {:charset "UTF-8"}]
     [:base {:href "/coffee-bob/"}]
-    [:style "svg > text {fill: var(--fg);} figure {margin: 0} header {padding: 8rem 0}"]
+    [:style "header {padding: 8rem 0}"]
     [:title title]]
    [:body
     [:main
@@ -51,125 +44,97 @@
       [:a {:href "/coffee-bob"} "home"]]]]])
 
 
-(defn xml-thing-to-option [{{:keys [id]} :attrs content :content}]
-  (let [mapped-tags (group-by :tag content)
-        {:keys [name coords summary impression write-up]} mapped-tags
-        impressions (-> impression first :content)
-        summaries-datafied
-        (map-map impressions
-                 (fn [{:keys [tag] {:keys [summary]} :attrs}]
-                   [(as-data tag) summary]))]
-    {:name (first-val name)
-     :id id
-     :write-up (first-val write-up)
-     :url (format "coffeehouse/%s/" id)
-     :coords (if coords (s/split (first-val coords) #", ") coords)
-     :summary (first-val summary)
-     :data-set summaries-datafied}))
+(def cafes (->> "./resources/cafes.xml" xml/parse parse-cafes))
 
 
-(defn parse-xml [{:keys [content] :as root}]
-  (defn rejig-impression-feature
-    [{[content] :content {:keys [value title]} :attrs}]
-    {:value (or value content) :label content :title title})
-
-  (let [{:keys [cafe]} (group-by :tag content)
-        cafes (map xml-thing-to-option cafe)]
-    cafes))
-
-
-(def file-data (xml/parse "./resources/cafes.xml"))
-(def xml-cafes (parse-xml file-data))
-
-
-(defn parse-features [{:keys [content] :as root}]
-  (defn parse-sub-features [content]
-    (let [{summary nil sub-features :feature} (group-by :tag content)]
-      {:summary (some-> summary first s/trim)
-       :sub-features (map handle-feature sub-features)}))
-
-  (defn handle-feature [{:keys [content] {:keys [id class label value]} :attrs}]
-    (let [{:keys [summary sub-features]} (parse-sub-features content)]
-      {:id id
-       :class (some-> class (s/split #" ") set)
-       :label (or label value id)
-       :value (or value id)
-       :summary summary
-       :sub-features sub-features}))
-
-  (let [{:keys [feature]} (group-by :tag content)]
-    (map handle-feature feature)))
-
-
-(def new-features (->> "./resources/specs.xml" xml/parse parse-features))
-(def features
-  (->> new-features
-       (filter (fn [{:keys [class]}] (not ((or class #{}) "hidden"))))
-       (map (fn [{:keys [value label summary id]}]
-              {:value value :label label :title summary :id id}))))
+(def features (->> "./resources/specs.xml" xml/parse parse-features))
 
 
 (def feature-options
-  (map (fn [{:keys [label value title]}] [:option {:value value :title title} label])
-       features))
+  (->> features
+       (filter (fn [{:keys [class]}] (not ((or class #{}) "hidden"))))
+       (map feature->option)))
+
+
+(defn default-graph [{:keys [width label features data]} & children]
+  [:spider-graph
+   {:width (or width 660)
+    :label (or label "radar graph of coffee shops by feature")
+    :features (or features "datalist#features")
+    :data (or data "datalist#cafes")}
+   children])
+
+
+(defn header [h1 summary] (list [:header [:h1 h1] summary]))
 
 
 (def graph
-  (seq
-    [[:spider-graph
-      {:width 660
-       :label "radar graph of coffee shops by feature"
-       :features "datalist#features"
-       :data "datalist#cafes"}]
-     [:spider-legend {:datalist "datalist#cafes"}]
-     [:datalist#cafes
-      (map 
-        (fn [{:keys [name data-set id url summary]}]
-          [:option.cafe
-           (assoc data-set :value id :data-href url :data-summary summary)
-           name])
-        xml-cafes)]
-     [:datalist#features feature-options]]))
+  (list
+    (default-graph {})
+    [:spider-legend {:datalist "datalist#cafes"}]
+    [:datalist#cafes (map cafe->option cafes)]
+    [:datalist#features feature-options]))
 
 
 (def coffee-bob
-  (layout
-    {:title "calgary coffee bob"
-     :headstuff [:script {:type "module" :src "/public/spider.js"}]
-     :children 
-     (seq 
-       [[:header [:h1 "the calgary coffee bob"]
-         [:p "a celebration of any aspect of anywhere that serves coffee"]]
-        [:section graph]])}))
+  (let [h1 (list "the calgary " [:a {:href "criterion/coffee"} "coffee "]
+                  [:a {:href "about/"} "bob"])]
+    (layout
+      {:title "calgary coffee bob"
+       :headstuff spider-stuff
+       :children 
+       (list
+         (header h1 "a celebration of any aspect of anywhere that serves coffee")
+         [:section graph])})))
+
+
+(defn feature-page [{:keys [id label summary class sub-features class] :as feature}]
+  (let [head (header label summary)
+        all-sub-features 
+        (if class (cond-> sub-features
+                    (class "priced") (conj {:id "price"})
+                    (class "various") (conj {:id "variety"})))
+        cafe-options [:datalist#cafes (map #(cafe->option-ns id %) cafes)]
+        feature-list [:datalist#features (map feature->option all-sub-features)]
+        graph (list
+                (default-graph {})
+                [:spider-legend {:datalist "datalist#cafes"}]
+                cafe-options
+                feature-list)]
+    (layout
+      {:title label
+       :headstuff spider-stuff
+       :children 
+       (list
+         head
+         graph)})))
 
 
 (defn shop-page [{:keys [name write-up summary] :as shop}]
   (def graph
-    (let [{:keys [name data-set id url summary]} shop]
-      [:spider-graph
-       {:width 660
-        :label "radar graph of coffee shops by feature"
-        :features "datalist#features"
-        :data "datalist#cafes"}
-      [:datalist#cafes
-       [:option.cafe
-        (assoc data-set :value id :data-href url :data-summary summary)
-        name]]
-     [:datalist#features feature-options]]))
+    (default-graph {}
+      [:datalist#cafes (cafe->option shop)]
+      [:datalist#features feature-options]))
 
   (layout
     {:title name
-     :headstuff [:script {:type "module" :src "/public/spider.js"}]
+     :headstuff spider-stuff
      :children
      (seq
-       [[:header [:h1 name]
-         summary]
+       [(header name summary)
         graph
-        (some->> write-up m/md->hiccup m/component)])}))
+        (some->> write-up m/md->hiccup without-div)])}))
+
+
+(depn indexify -> :url (format "%index.html"))
 
 
 (def shop-pages
-  (map-map xml-cafes (fn [shop] [(:url shop) (shop-page shop)])))
+  (map-map cafes (fn [shop] [(indexify shop) (shop-page shop)])))
+
+
+(def feature-pages
+  (map-map features (fn [feature] [(indexify feature) (feature-page feature)])))
 
 
 (def about-me
@@ -181,8 +146,26 @@
         [:img {:src "/public/bob.avif"}]])}))
 
 
+(defn a [href text] [:a {:href href} text])
+
+
+(def about
+  (with-open [rdr (clojure.java.io/reader "./resources/bobbing/about.md")]
+    (let [[head markdown]  (split-with #(not= "---" %) (line-seq rdr))
+          {:keys [header] :as stuff} (->> head (s/join "\n") edn/read-string)
+          body             (some->> markdown (s/join "\n") m/md->hiccup without-div)]
+      (layout
+        {:title "about the bob"
+         :children
+         (seq
+           [[:header (seq header)]
+            body])}))))
+
+
 (def pages
   (merge
     shop-pages
+    feature-pages
     {"about-me/index.html" about-me
+     "about/index.html" about
      "index.html" coffee-bob}))

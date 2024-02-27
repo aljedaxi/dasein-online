@@ -1,15 +1,16 @@
 <root>
 	<feature id="coffee" class="coffee various priced">
+		coffee is good. drink coffee. idk i'll write more later.
 		<feature id="turkish" class="priced"/>
 		<feature id="espresso" class="priced">espresso, black</feature>
-		<feature id="short-drinks" class="priced">
+		<feature value="shortDrinks" label="short drinks" id="short-drinks" class="priced">
 			your cortados, macchiatos, cappuccinos, &amp;c.
 		</feature>
-		<feature id="americano" class="priced">and/or long blacks and/or the Alex Yingjian</feature>
+		<feature label="long blacks" id="americano" class="priced">and/or long blacks and/or the Alex Yingjian</feature>
 		<feature id="flights" class="priced">
 			a few different beans or brews, grouped together
 		</feature>
-		<feature id="pour-overs" class="priced">
+		<feature value="pourOvers" label="pour overs" id="pour-overs" class="priced">
 			when the barista (or a machine) takes a kettle and brews a single cup at a time. brewer agnostic, aeropress is in the game.
 		</feature>
 	</feature>
