@@ -22,6 +22,7 @@
    [:a {:href "about-me"} "about me"]
    [:a {:href ""} "home"]])
 
+
 (defn layout [{:keys [children headstuff title]}]
   [:html
    [:head
@@ -114,6 +115,7 @@
 (def feature-map (group-by :id features))
 (depn tag->feature some->> (get feature-map))
 (depn kw->str some-> str (subs 1))
+(depn cup some->> m/md->hiccup h/without-div)
 
 (defn shop-page [{:keys [name write-up summary coords features] :as shop}]
   (def graph
@@ -131,9 +133,9 @@
       (list
         [:div.golden-ratio title rating]
         (cond
-          (and summary write-up) [:details [:summary summary] [:p write-up]]
-          summary                [:p summary]
-          write-up               [:p write-up]))))
+          (and summary write-up) [:details [:summary (last (cup summary))] (cup write-up)]
+          summary                [:p (cup summary)]
+          write-up               [:p (cup write-up)]))))
 
   (layout
     {:title name
@@ -145,7 +147,7 @@
      (list
        (h/header name summary)
        graph
-       (some->> write-up m/md->hiccup h/without-div)
+       (cup write-up)
        [:hr]
        [:div.centered location-link]
        [:hr]
