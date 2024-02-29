@@ -1,6 +1,7 @@
 (ns stasis-test.bob-utils
   (:require [clojure.string :as s]))
 
+
 (defmacro depn [func-name threading-macro & args]
   `(defn ~func-name [arg#] (~threading-macro arg# ~@args)))
 
@@ -67,7 +68,11 @@
            real-tags nil} (group-by #(-> % :tag #{:summary :write-up}) sub-tags)
           value (or (get attrs :summary) (some-> maybe-summary first s/trim) "0")
           sub-features (map fuck real-tags)]
-      {:sub-features sub-features :value value :summary summary :write-up write-up :tag tag}))
+      {:sub-features sub-features
+       :value value
+       :summary (first-val summary)
+       :write-up (first-val write-up)
+       :tag tag}))
 
   (defn xml-thing-to-option [{{:keys [id]} :attrs content :content}]
     (let [mapped-tags (group-by :tag content)

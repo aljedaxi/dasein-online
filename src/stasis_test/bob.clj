@@ -23,8 +23,8 @@
   (list [:style "svg > text {fill: var(--fg);}"]
         [:script {:type "module" :src "/public/spider.js"}]))
 
-(defn layout
-  [{:keys [children headstuff title]}]
+
+(defn layout [{:keys [children headstuff title]}]
   [:html
    [:head
     headstuff
@@ -110,20 +110,52 @@
          graph)})))
 
 
-(defn shop-page [{:keys [name write-up summary] :as shop}]
+(defn coord->link [[x y] text]
+  [:a {:href (format "https://www.openstreetmap.org/#map=20/%s/%s" x y)} text])
+
+
+(defn link2feature [keywd]
+  (format "criterion/%s" (subs (str keywd) 1)))
+
+
+(def feature-map (group-by :id features))
+(depn tag->feature some->> (get feature-map))
+(depn kw->str some-> str (subs 1))
+
+(defn shop-page [{:keys [name write-up summary coords features] :as shop}]
   (def graph
     (default-graph {}
       [:datalist#cafes (cafe->option shop)]
       [:datalist#features feature-options]))
 
+  (def location-link (some-> coords (coord->link "location")))
+
+  (defn feature->section [{:keys [value summary write-up tag sub-features]}]
+    (let [feature (some-> tag kw->str tag->feature first)
+          rating (if (some-> value read-string (> 0))
+                   [:span [:sup value] "&frasl;" [:sub "3"]])
+          title [:h2 [:a {:href (link2feature tag)} tag]]]
+      (list
+        [:div.golden-ratio title rating]
+        (cond
+          (and summary write-up) [:details [:summary summary] [:p write-up]]
+          summary                [:p summary]
+          write-up               [:p write-up]))))
+
   (layout
     {:title name
-     :headstuff spider-stuff
+     :headstuff (list
+                  spider-stuff
+                  [:style ".centered { text-align: center } .golden-ratio {display: grid;grid-template-columns: 1.618033988749894fr 1fr;align-items: center;}"])
      :children
-     (seq
-       [(header name summary)
-        graph
-        (some->> write-up m/md->hiccup without-div)])}))
+     (list
+       (header name summary)
+       graph
+       (some->> write-up m/md->hiccup without-div)
+       [:hr]
+       [:div.centered location-link]
+       [:hr]
+       (map feature->section features))}))
 
 
 (depn indexify -> :url (format "%index.html"))
