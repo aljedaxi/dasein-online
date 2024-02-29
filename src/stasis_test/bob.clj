@@ -30,7 +30,8 @@
     headstuff
     (stylesheet "https://unpkg.com/normalize.css@8.0.1/normalize.css")
     (stylesheet "https://unpkg.com/concrete.css@2.1.1/concrete.css")
-    [:meta {:charset "UTF-8"}]
+    [:meta {:charset "utf-8"}]
+    [:link {:rel "icon" :href "/public/favicon.ico" :sizes "any"}]
     [:base {:href "/coffee-bob/"}]
     [:style "header {padding: 8rem 0}"]
     [:title title]]
