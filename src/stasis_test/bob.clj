@@ -7,16 +7,9 @@
             [clojure.java.io]
             [stasis-test.bob-utils
              :refer [cafe->option map-map depn feature->option cafe->option-ns parse-features parse-cafes]]
+            [stasis-test.html-utils :as h]
             [clojure.edn :as edn]
             [clojure.pprint :as pprint]))
-
-
-(defn without-div [hiccup]
-  (let [[tag opts children] (m/component hiccup)]
-    children))
-
-
-(defn stylesheet [href] [:link {:rel "stylesheet" :href href}])
 
 
 (def spider-stuff
@@ -28,8 +21,8 @@
   [:html
    [:head
     headstuff
-    (stylesheet "https://unpkg.com/normalize.css@8.0.1/normalize.css")
-    (stylesheet "https://unpkg.com/concrete.css@2.1.1/concrete.css")
+    (h/stylesheet "https://unpkg.com/normalize.css@8.0.1/normalize.css")
+    (h/stylesheet "https://unpkg.com/concrete.css@2.1.1/concrete.css")
     [:meta {:charset "utf-8"}]
     [:link {:rel "icon" :href "/public/favicon.ico" :sizes "any"}]
     [:base {:href "/coffee-bob/"}]
@@ -66,9 +59,6 @@
    children])
 
 
-(defn header [h1 summary] (list [:header [:h1 h1] summary]))
-
-
 (def graph
   (list
     (default-graph {})
@@ -85,12 +75,12 @@
        :headstuff spider-stuff
        :children 
        (list
-         (header h1 "a celebration of any aspect of anywhere that serves coffee")
+         (h/header h1 "a celebration of any aspect of anywhere that serves coffee")
          [:section graph])})))
 
 
 (defn feature-page [{:keys [id label summary class sub-features class] :as feature}]
-  (let [head (header label summary)
+  (let [head (h/header label summary)
         all-sub-features 
         (if class (cond-> sub-features
                     (class "priced") (conj {:id "price"})
@@ -150,9 +140,9 @@
                   [:style ".centered { text-align: center } .golden-ratio {display: grid;grid-template-columns: 1.618033988749894fr 1fr;align-items: center;}"])
      :children
      (list
-       (header name summary)
+       (h/header name summary)
        graph
-       (some->> write-up m/md->hiccup without-div)
+       (some->> write-up m/md->hiccup h/without-div)
        [:hr]
        [:div.centered location-link]
        [:hr]
@@ -179,14 +169,11 @@
         [:img {:src "/public/bob.avif"}]])}))
 
 
-(defn a [href text] [:a {:href href} text])
-
-
 (def about
   (with-open [rdr (clojure.java.io/reader "./resources/bobbing/about.md")]
     (let [[head markdown]  (split-with #(not= "---" %) (line-seq rdr))
           {:keys [header] :as stuff} (->> head (s/join "\n") edn/read-string)
-          body             (some->> markdown (s/join "\n") m/md->hiccup without-div)]
+          body             (some->> markdown (s/join "\n") m/md->hiccup h/without-div)]
       (layout
         {:title "about the bob"
          :children
