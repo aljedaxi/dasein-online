@@ -17,6 +17,11 @@
         [:script {:type "module" :src "/public/spider.js"}]))
 
 
+(def bottom-links
+  [[:a {:href "about"} "about"]
+   [:a {:href "about-me"} "about me"]
+   [:a {:href ""} "home"]])
+
 (defn layout [{:keys [children headstuff title]}]
   [:html
    [:head
@@ -32,10 +37,7 @@
     [:main
      children
      [:hr]
-     [:footer 
-      [:a {:href "/coffee-bob/about-me"} "about me"]
-      "&nbsp;"
-      [:a {:href "/coffee-bob"} "home"]]]]])
+     [:footer (interpose " ❧ " bottom-links)]]]])
 
 
 (def cafes (->> "./resources/cafes.xml" xml/parse parse-cafes))
@@ -137,6 +139,7 @@
     {:title name
      :headstuff (list
                   spider-stuff
+                  (h/stylesheet "/silly-details.css")
                   [:style ".centered { text-align: center } .golden-ratio {display: grid;grid-template-columns: 1.618033988749894fr 1fr;align-items: center;}"])
      :children
      (list
