@@ -126,24 +126,33 @@
 
   (def location-link (some-> coords (coord->link "location")))
 
-  (defn feature->section [{:keys [value summary write-up tag sub-features]}]
+  (defn feature->section [{:keys [value summary write-up tag sub-features]} heading]
     (let [feature (some-> tag kw->str tag->feature first)
           rating (if (some-> value read-string (> 0))
                    [:span [:sup value] "&frasl;" [:sub "3"]])
-          title [:h2 [:a {:href (link2feature tag)} tag]]]
+          title [heading [:a {:href (link2feature tag)} tag]]
+          show-details (and summary write-up)]
+      (pprint/pprint
+        {:summary summary
+         :write-up write-up})
       (list
         [:div.golden-ratio title rating]
         (cond
-          (and summary write-up) [:details [:summary (last (first (cup summary)))] (cup write-up)]
-          summary                [:p (cup summary)]
-          write-up               [:p (cup write-up)]))))
+          show-details [:details [:summary (drop 2 (first (cup summary)))]
+                        (cup write-up)
+                        (if (seq sub-features)
+                          [:section.dented
+                           (map #(feature->section % :h3)
+                                sub-features)])]
+          summary      (cup summary)
+          write-up     (cup write-up)))))
 
   (layout
     {:title name
      :headstuff (list
                   spider-stuff
                   (h/stylesheet "/silly-details.css")
-                  [:style ".centered { text-align: center } .golden-ratio {display: grid;grid-template-columns: 1.618033988749894fr 1fr;align-items: center;}"])
+                  [:style ".centered { text-align: center } .golden-ratio {display: grid;grid-template-columns: 1.618033988749894fr 1fr;align-items: center;} .dented {margin-inline-start: 20.75px; padding: 0} .golden-ratio + p {margin: 0}"])
      :children
      (list
        (h/header name summary)
@@ -152,7 +161,7 @@
        [:hr]
        [:div.centered location-link]
        [:hr]
-       (map feature->section features))}))
+       (map #(feature->section % :h2) features))}))
 
 
 (depn indexify -> :url (format "%index.html"))
