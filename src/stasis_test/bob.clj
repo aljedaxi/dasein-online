@@ -20,7 +20,9 @@
 (def bottom-links
   [[:a {:href "about"} "about"]
    [:a {:href "about-me"} "about me"]
-   [:a {:href ""} "home"]])
+   [:a {:href "/coffee-bob"} "home"]
+   [:a {:href "https://wiki.p2pfoundation.net/Peer_Production_License"} "PPL"]
+   [:span "v0.1.0"]])
 
 
 (defn layout [{:keys [children headstuff title]}]
