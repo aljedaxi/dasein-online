@@ -9,5 +9,5 @@
 
 
 (defn without-div [hiccup]
-  (let [[tag opts children] (m/component hiccup)]
+  (let [[tag opts & children] (m/component hiccup)]
     children))

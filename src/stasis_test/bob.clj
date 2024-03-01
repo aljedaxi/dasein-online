@@ -85,9 +85,10 @@
 (defn feature-page [{:keys [id label summary class sub-features class] :as feature}]
   (let [head (h/header label summary)
         all-sub-features 
-        (if class (cond-> sub-features
-                    (class "priced") (conj {:id "price"})
-                    (class "various") (conj {:id "variety"})))
+        (if class (cond->   sub-features 
+                    true              (conj (feature->option {:id "value" :label "summary"}))
+                    (class "priced")  (conj (feature->option {:id "price"}))
+                    (class "various") (conj (feature->option {:id "variety"}))))
         cafe-options [:datalist#cafes (map #(cafe->option-ns id %) cafes)]
         feature-list [:datalist#features (map feature->option all-sub-features)]
         graph (list
@@ -133,7 +134,7 @@
       (list
         [:div.golden-ratio title rating]
         (cond
-          (and summary write-up) [:details [:summary (last (cup summary))] (cup write-up)]
+          (and summary write-up) [:details [:summary (last (first (cup summary)))] (cup write-up)]
           summary                [:p (cup summary)]
           write-up               [:p (cup write-up)]))))
 

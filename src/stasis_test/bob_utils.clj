@@ -26,19 +26,26 @@
     (cafe->option-base data-set cafe)))
 
 
-(defn feature->option [{:keys [value label summary id url]}]
-  [:option
-   (cond-> {:data-href url :id id}
-     (not= value label) (assoc :value value))
-   (or label id)])
+(depn feature-url ->> (format "coffeehouse/%s/"))
+
+
+(defn feature->option [{:keys [id] :as feature}]
+  (let [url (or (:url feature) (feature-url id))
+        value (or (:value feature) id)
+        label (or (:label feature) id)]
+    [:option
+     (cond-> {:data-href url :id id}
+       (not= value label) (assoc :value value))
+     (or label id)]))
 
 
 (defn cafe->option-ns [data-ns {:keys [features] :as cafe}]
   (let [ns-tag (keyword data-ns)
-        base-feature (filter (fn [{:keys [tag]}] (= tag ns-tag)) features)
-        nested-features (or (some-> base-feature first :sub-features) '())
+        base-feature (some-> (filter (fn [{:keys [tag]}] (= tag ns-tag)) features) first)
+        value (some-> base-feature :value)
+        nested-features (or (some-> base-feature :sub-features) '())
         data-set (map-map nested-features (fn [{:keys [value tag]}] [(as-data tag) value]))]
-   (cafe->option-base data-set cafe)))
+   (cafe->option-base (assoc data-set :data-value value) cafe)))
 
 
 (defn parse-features [{:keys [content] :as root}]
@@ -59,7 +66,6 @@
 
   (let [{:keys [feature]} (group-by :tag content)]
     (map handle-feature feature)))
-
 
 (defn parse-cafes [{:keys [content] :as root}]
   (defn fuck [{:keys [tag content attrs]}]
@@ -84,7 +90,7 @@
       {:name (first-val name)
        :id id
        :write-up (first-val write-up)
-       :url (format "coffeehouse/%s/" id)
+       :url (feature-url id)
        :coords (if coords (s/split (first-val coords) #", ") coords)
        :summary (first-val summary)
        :features features}))
