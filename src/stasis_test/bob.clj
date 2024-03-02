@@ -130,11 +130,11 @@
 
   (def location-link (some-> coords (coord->link "location")))
 
-  (defn feature->section [{:keys [value summary write-up tag sub-features]} heading]
+  (defn feature->section [{:keys [value summary write-up tag sub-features]} head-level]
     (let [feature (some-> tag kw->str tag->feature first)
           rating (if (some-> value read-string (> 0))
                    [:span [:sup value] "&frasl;" [:sub "3"]])
-          title [heading [:a {:href (link2feature tag)} tag]]
+          title [(keyword (format "h%d" head-level)) [:a {:href (link2feature tag)} tag]]
           show-details (and summary write-up)]
       (pprint/pprint
         {:summary summary
@@ -146,7 +146,7 @@
                         (cup write-up)
                         (if (seq sub-features)
                           [:section.dented
-                           (map #(feature->section % :h3)
+                           (map #(feature->section % (acc head-level))
                                 sub-features)])]
           summary      (cup summary)
           write-up     (cup write-up)))))
@@ -165,7 +165,7 @@
        [:hr]
        [:div.centered location-link]
        [:hr]
-       (map #(feature->section % :h2) features))}))
+       (map #(feature->section % 2) features))}))
 
 
 (depn indexify -> :url (format "%index.html"))
