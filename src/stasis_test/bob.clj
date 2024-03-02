@@ -22,6 +22,7 @@
    [:a {:href "about-me"} "about me"]
    [:a {:href "/coffee-bob"} "home"]
    [:a {:href "https://wiki.p2pfoundation.net/Peer_Production_License"} "PPL"]
+   [:button {:type "button" :style "margin: 0" :onclick "void dispenseMittens()"} "coffee"]
    [:span "v0.1.0"]])
 
 
@@ -34,6 +35,7 @@
     [:meta {:charset "utf-8"}]
     [:link {:rel "icon" :href "/public/favicon.ico" :sizes "any"}]
     [:base {:href "/coffee-bob/"}]
+    [:script {:src "/public/mittens.js"}]
     [:style "header {padding: 8rem 0}"]
     [:title title]]
    [:body
@@ -177,6 +179,14 @@
   (map-map features (fn [feature] [(indexify feature) (feature-page feature)])))
 
 
+(def glossary
+  (layout
+    {:title "glossary"
+     :children
+     (list
+       (h/header "glossary" "strange and technical terms"))}))
+
+
 (def about-me
   (layout
     {:title "about me"
@@ -205,4 +215,5 @@
     feature-pages
     {"about-me/index.html" about-me
      "about/index.html" about
+     "glossary/index.html" glossary
      "index.html" coffee-bob}))

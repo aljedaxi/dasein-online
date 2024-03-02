@@ -22,7 +22,7 @@
 
 
 (defn get-assets []
-  (->> (assets/load-assets "public" [#"/.*\.(avif|ico|js)"])
+  (->> (assets/load-assets "public" [#"/.*\.(avif|ico|js|gif)"])
        (map #(assoc % :path (format "/public%s" (:path %))))))
 
 
