@@ -146,7 +146,7 @@
                         (cup write-up)
                         (if (seq sub-features)
                           [:section.dented
-                           (map #(feature->section % (acc head-level))
+                           (map #(feature->section % (+ 1 head-level))
                                 sub-features)])]
           summary      (cup summary)
           write-up     (cup write-up)))))
