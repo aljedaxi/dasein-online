@@ -9,7 +9,7 @@ one of the reasons the snob was so successful was its round approach to reviews:
 
 the coffee snob understands that coffee shops aren't just coffee, and coffee isn't just flavour. anyone who loves anything about the coffee shop experience can find the perfect shop for them. all the information is there—but it'll take you hours to sift through it.
 
-this site has two primary goals
+this site has two primary goals:
 - i want to represent cafe reviews in a way that's quickly parsable: stackable, sortable, filterable. i want somebody who's new to the city to quickly find their perfect cafe.
 - i want to pay back all the places that've given me great coffee, to give them the financial security they need to push to greater heights.
 
