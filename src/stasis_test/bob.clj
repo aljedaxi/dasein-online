@@ -85,28 +85,32 @@
          (h/header h1 "a celebration of any aspect of anywhere that serves coffee")
          [:section graph])})))
 
+
 (defn value-for-feature [feature-id cafe]
   (or (some->> cafe :features (filter #(= feature-id (:tag %))) first :value read-string)
       0))
 
+
 (defn feature-page [{:keys [id label summary class sub-features class] :as feature}]
   (let [head (h/header label summary)
         all-sub-features 
-        (if class (cond->             sub-features 
-                    true              (conj (feature->option {:id "value" :label "summary"}))
-                    (class "priced")  (conj (feature->option {:id "price"}))
-                    (class "various") (conj (feature->option {:id "variety"}))))
-        cafe-options [:datalist#cafes (map #(cafe->option-ns id %)
-                                           (sort #(>
-                                                   (value-for-feature (keyword id) %1)
-                                                   (value-for-feature (keyword id) %2))
-                                                 cafes))]
+        (if class
+          (cond->             sub-features 
+            true              (conj {:id "value" :label "summary"})
+            (class "priced")  (conj {:id "price"})
+            (class "various") (conj {:id "variety"})))
+        sorted-features
+        (sort #(> (value-for-feature (keyword id) %1)
+                  (value-for-feature (keyword id) %2))
+              cafes)
+        cafe-options [:datalist#cafes (map #(cafe->option-ns id %) sorted-features)]
         feature-list [:datalist#features (map feature->option all-sub-features)]
         graph (list
                 (default-graph {})
                 [:spider-legend {:datalist "datalist#cafes"}]
                 cafe-options
                 feature-list)]
+    (pprint/pprint all-sub-features)
     (layout
       {:title label
        :headstuff spider-stuff
