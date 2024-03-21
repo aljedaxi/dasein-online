@@ -26,7 +26,7 @@
     (cafe->option-base data-set cafe)))
 
 
-(depn feature-url ->> (format "coffeehouse/%s/"))
+(depn feature-url ->> (format "criterion/%s/"))
 
 
 (defn feature->option [{:keys [id] :as feature}]

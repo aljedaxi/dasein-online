@@ -110,7 +110,6 @@
                 [:spider-legend {:datalist "datalist#cafes"}]
                 cafe-options
                 feature-list)]
-    (pprint/pprint all-sub-features)
     (layout
       {:title label
        :headstuff spider-stuff
