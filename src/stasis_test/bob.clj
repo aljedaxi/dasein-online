@@ -85,15 +85,22 @@
          (h/header h1 "a celebration of any aspect of anywhere that serves coffee")
          [:section graph])})))
 
+(defn value-for-feature [feature-id cafe]
+  (or (some->> cafe :features (filter #(= feature-id (:tag %))) first :value read-string)
+      0))
 
 (defn feature-page [{:keys [id label summary class sub-features class] :as feature}]
   (let [head (h/header label summary)
         all-sub-features 
-        (if class (cond->   sub-features 
+        (if class (cond->             sub-features 
                     true              (conj (feature->option {:id "value" :label "summary"}))
                     (class "priced")  (conj (feature->option {:id "price"}))
                     (class "various") (conj (feature->option {:id "variety"}))))
-        cafe-options [:datalist#cafes (map #(cafe->option-ns id %) cafes)]
+        cafe-options [:datalist#cafes (map #(cafe->option-ns id %)
+                                           (sort #(>
+                                                   (value-for-feature (keyword id) %1)
+                                                   (value-for-feature (keyword id) %2))
+                                                 cafes))]
         feature-list [:datalist#features (map feature->option all-sub-features)]
         graph (list
                 (default-graph {})
@@ -136,9 +143,6 @@
                    [:span [:sup value] "&frasl;" [:sub "3"]])
           title [(keyword (format "h%d" head-level)) [:a {:href (link2feature tag)} tag]]
           show-details (and summary write-up)]
-      (pprint/pprint
-        {:summary summary
-         :write-up write-up})
       (list
         [:div.golden-ratio title rating]
         (cond
