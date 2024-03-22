@@ -27,6 +27,7 @@
 
 
 (depn feature-url ->> (format "criterion/%s/"))
+(depn cafe-url ->> (format "coffeehouse/%s/"))
 
 
 (defn feature->option [{:keys [id] :as feature}]
@@ -60,7 +61,7 @@
        :class (some-> class (s/split #" ") set)
        :label (or label value id)
        :value (or value id)
-       :url (format "criterion/%s/" id)
+       :url (feature-url id)
        :summary summary
        :sub-features sub-features}))
 
@@ -91,7 +92,7 @@
       {:name (first-val name)
        :id id
        :write-up (first-val write-up)
-       :url (feature-url id)
+       :url (cafe-url id)
        :coords (if coords (s/split (first-val coords) #", ") coords)
        :summary (first-val summary)
        :color (first-val color)

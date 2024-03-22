@@ -6,7 +6,9 @@
             [stasis-test.util :as u]
             [clojure.java.io]
             [stasis-test.bob-utils
-             :refer [cafe->option map-map depn feature->option cafe->option-ns parse-features parse-cafes]]
+             :refer [cafe->option map-map depn feature->option cafe->option-ns parse-features parse-cafes
+                     feature-url
+                     ]]
             [stasis-test.html-utils :as h]
             [clojure.edn :as edn]
             [clojure.pprint :as pprint]))
@@ -75,7 +77,7 @@
 
 
 (def coffee-bob
-  (let [h1 (list "the calgary " [:a {:href "criterion/coffee"} "coffee "]
+  (let [h1 (list "the calgary " [:a {:href (feature-url "coffee")} "coffee "]
                   [:a {:href "about/"} "bob"])]
     (layout
       {:title "calgary coffee bob"
@@ -123,8 +125,7 @@
   [:a {:href (format "https://www.openstreetmap.org/#map=20/%s/%s" x y)} text])
 
 
-(defn link2feature [keywd]
-  (format "criterion/%s" (subs (str keywd) 1)))
+(defn link2feature [keywd] (feature-url (subs (str keywd) 1)))
 
 
 (def feature-map (group-by :id features))
