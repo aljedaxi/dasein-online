@@ -68,8 +68,7 @@
   (let [{:keys [feature]} (group-by :tag content)]
     (map handle-feature feature)))
 
-
-(defn parse-cafes [{:keys [content] :as root}]
+(defn parse-cafe [{{:keys [id]} :attrs content :content}]
   (defn fuck [{:keys [tag content attrs]}]
     (let [{sub-tags false maybe-summary true} (group-by string? content)
           {:keys [summary write-up]
@@ -81,22 +80,21 @@
        :summary (first-val summary)
        :write-up (first-val write-up)
        :tag tag}))
+  (let [mapped-tags (group-by :tag content)
+        {:keys [name coords summary impression write-up color]} mapped-tags
+        latest-impression (first impression)
+        {:keys [content attrs]} latest-impression
+        {:keys [timestamp]} attrs
+        features (map fuck content)]
+    {:name (first-val name)
+     :id id
+     :write-up (first-val write-up)
+     :url (cafe-url id)
+     :coords (if coords (s/split (first-val coords) #", ") coords)
+     :summary (first-val summary)
+     :color (first-val color)
+     :features features}))
 
-  (defn xml-thing-to-option [{{:keys [id]} :attrs content :content}]
-    (let [mapped-tags (group-by :tag content)
-          {:keys [name coords summary impression write-up color]} mapped-tags
-          latest-impression (first impression)
-          {:keys [content attrs]} latest-impression
-          {:keys [timestamp]} attrs
-          features (map fuck content)]
-      {:name (first-val name)
-       :id id
-       :write-up (first-val write-up)
-       :url (cafe-url id)
-       :coords (if coords (s/split (first-val coords) #", ") coords)
-       :summary (first-val summary)
-       :color (first-val color)
-       :features features}))
-
+(defn parse-cafes [{:keys [content] :as root}]
   (let [{:keys [cafe]} (group-by :tag content)]
-    (map xml-thing-to-option cafe)))
+    (map parse-cafe cafe)))

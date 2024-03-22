@@ -70,6 +70,7 @@
              stasis-test.bob/pages))
          (stasis/slurp-directory "resources/public" #"\.css$")))
 
+
 (def app (-> (stasis/serve-pages get-pages {:stasis/ignore-nil-pages? true})
              (optimus/wrap get-assets optimizations/none serve-live-assets)
              wrap-content-type))

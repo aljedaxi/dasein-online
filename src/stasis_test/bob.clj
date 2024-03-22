@@ -4,13 +4,16 @@
             [clojure.string :as s]
             [markdown-to-hiccup.core :as m]
             [stasis-test.util :as u]
-            [clojure.java.io]
+            [stasis-test.xml :as stxml]
+            [clojure.java.io :as io]
             [stasis-test.bob-utils
              :refer [cafe->option map-map depn feature->option cafe->option-ns parse-features parse-cafes
                      feature-url
+                     parse-cafe
                      ]]
             [stasis-test.html-utils :as h]
             [clojure.edn :as edn]
+            [stasis.core :as stasis]
             [clojure.pprint :as pprint]))
 
 
@@ -47,7 +50,14 @@
      [:footer (interpose " ❧ " bottom-links)]]]])
 
 
-(def cafes (->> "./resources/cafes.xml" xml/parse parse-cafes))
+(def cafes
+  (concat 
+    (stxml/get-cafes "resources/bobbing")
+    (->> "./resources/cafes.xml"
+       xml/parse
+       ((fn [{:keys [content] :as root}]
+         (let [{:keys [cafe]} (group-by :tag content)]
+           (map parse-cafe cafe)))))))
 
 
 (def features (->> "./resources/specs.xml" xml/parse parse-features))
@@ -138,6 +148,7 @@
 (defn of-three [value]
   [:span [:sup value] "&frasl;" [:sub (h/a "3" "about/methodology/#nps")]])
 
+
 (defn shop-page [{:keys [name write-up summary coords features] :as shop}]
   (def graph
     (default-graph {}
@@ -207,7 +218,7 @@
 
 
 (def about
-  (with-open [rdr (clojure.java.io/reader "./resources/bobbing/about.md")]
+  (with-open [rdr (io/reader "./resources/bobbing/about.md")]
     (let [[head markdown]  (split-with #(not= "---" %) (line-seq rdr))
           {:keys [header] :as stuff} (->> head (s/join "\n") edn/read-string)
           body             (some->> markdown (s/join "\n") m/md->hiccup h/without-div)]

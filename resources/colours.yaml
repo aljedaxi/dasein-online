@@ -1,0 +1,54 @@
+# source: https://github.com/adobe/leonardo
+red: 
+  - hex: #e83326
+    taken-by: european-bakery
+  - hex: #ff7d67
+  - hex: #ac0000
+  - hex: #680000
+
+orange:
+  - hex: #c85b00
+  - hex: #f98517
+  - hex: #903900
+  - hex: #561e01
+
+yellow:
+  - hex: #997600
+    taken-by: monogram
+  - hex: #c6a000
+  - hex: #6c4f00
+  - hex: #412c00
+
+green:
+  - hex: #4f890e
+    taken-by: paradigm-spark
+  - hex: #72b622
+  - hex: #355e07
+  - hex: #1e3604
+
+cyan:
+  - hex: #008c5c
+  - hex: #33b983
+  - hex: #00603d
+  - hex: #0e3724
+
+blue:
+  - hex: #1077f3
+    taken-by: t2722
+  - hex: #5ba8f7
+  - hex: #0050ae
+  - hex: #002f64
+
+purple:
+  - hex: #9b54f3
+    taken-by: mobSquad
+  - hex: #bf8cfc
+  - hex: #7018d3
+  - hex: #3d137d
+
+pink:
+  - hex: #cc34cd
+    taken-by: treno
+  - hex: #ee74ee
+  - hex: #970098
+  - hex: #551153
