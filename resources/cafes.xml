@@ -66,13 +66,14 @@
 		<coords>51.03801877947663, -114.08253131921862</coords>
 		<impression timestamp="2024-02-11">
 			<coffee summary="3">
+				<summary>a suite of well balanced beans. roasted in house.</summary>
 				<write-up>
 					the menu is split into a few categories of [beans, provided by david kim](https://www.davidkimcoffee.com/shop):
 
-					* Sezita, the red one, with a classic third wave, red berry profile,
-					* Duvixe, the blue one, with a your more pruney, chocolatey, blue berry, black tea kinda flavours,
-					* Bohuma, the orange one, with developed stonefruit, dried fruit kinda flavours,
-					* Kiyalo, the pink one, with more flowery, tropical fruit flavours.
+* sezita, the red one, with a classic third wave, red berry profile,
+* duvixe, the blue one, with a your more pruney, chocolatey, blue berry, black tea kinda flavours,
+* bohuma, the orange one, with developed stonefruit, dried fruit kinda flavours,
+* kiyalo, the pink one, with more flowery, tropical fruit flavours.
 				</write-up>
 				<espresso summary="3">
 					<summary>thick. juicy. intensely flavourful. hurts my teeth.</summary>
@@ -82,9 +83,9 @@
 						it balances the acid better than a lot of third wave places do, but when you get into the sezita line, things get hard. caveat emptor! consider a touch of oat milk!
 
 						today i had the sezita and the kiyalo:
-						* the sezita is a burst of berry flavour: massive, looming. a classic flavour profile, and one of my favorite expressions of it.
-						* the kiyalo (Johan Vergara) is a bouquet with a backbone. massive floral flavour, with a beautiful, lactic richness. a lot less acidic than the sezita.
-						* the kiyalo (Milton Monroy) is a really neat burst of mangosteen.
+* the sezita is a burst of berry flavour: massive, looming. a classic flavour profile, and one of my favorite expressions of it.
+* the kiyalo (Johan Vergara) is a bouquet with a backbone. massive floral flavour, with a beautiful, lactic richness. a lot less acidic than the sezita.
+* the kiyalo (Milton Monroy) is a really neat burst of mangosteen.
 					</write-up>
 				</espresso>
 				<short-drinks summary="3">
@@ -117,6 +118,11 @@
 				<price>2</price>
 			</coffee>
 			<price summary="1"/>
+			<food summary="2">
+				<summary>good and great baked goods</summary>
+				<write-up>this is the _Butter Block cafe_. Butter Blocks stuff runs from passable to pretty great, but not amazing.</write-up>
+				<baked-goods summary="2"/>
+			</food>
 			<vibes summary="2">
 				<summary>fairly standard 3rd wave vibes</summary>
 				<write-up>
@@ -243,9 +249,9 @@
 					<summary>genuinely the worst coffee i've had in years</summary>
 					<write-up>bitter, acidic, sharp. mild petroleum note. primary notes include ash and dust. i wipe my brow and i slap my nuts. this is it, the apocalypse.</write-up>
 				</short-drinks>
-				<long-black summary="1">
+				<americano summary="1">
 					<summary>the americano misto tasted like—nothing. whispers of ash and paper.</summary>
-				</long-black>
+				</americano>
 			</coffee>
 			<price summary="2"></price>
 			<vibes summary="2">

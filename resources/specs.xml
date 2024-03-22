@@ -6,7 +6,7 @@
 		<feature value="shortDrinks" label="short drinks" id="short-drinks" class="priced">
 			your cortados, macchiatos, cappuccinos, &amp;c.
 		</feature>
-		<feature label="long blacks" id="americano" class="priced">and/or long blacks and/or the Alex Yingjian</feature>
+		<feature label="long blacks" id="americano" class="priced">and/or long blacks and/or the Alex Cao short black</feature>
 		<feature id="flights" class="priced">
 			a few different beans or brews, grouped together
 		</feature>
@@ -22,6 +22,9 @@
 	</feature>
 	<feature id="food" class="various priced">
 		including baked goods
+		<feature id="baked-goods" class="various priced">
+			pastries, cakes, and whatever magic [T2722](/coffee-bob/coffeehouse/t2722) is making
+		</feature>
 	</feature>
 	<feature id="vibes">
 		definitely the vaguest category. an elder millennial/young gen x-er might call this the brand: everything from the décor to the view to the service
