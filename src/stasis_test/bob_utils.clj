@@ -15,9 +15,9 @@
 (depn first-val some-> first (get :content) first s/trim)
 
 
-(defn cafe->option-base [data-set {:keys [name id url summary]}]
+(defn cafe->option-base [data-set {:keys [name id url summary color]}]
   [:option.cafe
-   (assoc data-set :value id :data-href url :data-summary summary)
+   (assoc data-set :value id :data-href url :data-summary summary :data-color color)
    name])
 
 
@@ -67,6 +67,7 @@
   (let [{:keys [feature]} (group-by :tag content)]
     (map handle-feature feature)))
 
+
 (defn parse-cafes [{:keys [content] :as root}]
   (defn fuck [{:keys [tag content attrs]}]
     (let [{sub-tags false maybe-summary true} (group-by string? content)
@@ -82,7 +83,7 @@
 
   (defn xml-thing-to-option [{{:keys [id]} :attrs content :content}]
     (let [mapped-tags (group-by :tag content)
-          {:keys [name coords summary impression write-up]} mapped-tags
+          {:keys [name coords summary impression write-up color]} mapped-tags
           latest-impression (first impression)
           {:keys [content attrs]} latest-impression
           {:keys [timestamp]} attrs
@@ -93,6 +94,7 @@
        :url (feature-url id)
        :coords (if coords (s/split (first-val coords) #", ") coords)
        :summary (first-val summary)
+       :color (first-val color)
        :features features}))
 
   (let [{:keys [cafe]} (group-by :tag content)]

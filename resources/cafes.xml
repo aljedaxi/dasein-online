@@ -1,6 +1,7 @@
 <root>
 	<cafe id="european-bakery">
 		<name>European Bakery</name>
+		<color>#e83326</color>
 		<coords>51.03766612184806, -114.07219196898996</coords>
     <summary>a bakery that serves surprisingly good turkish coffee</summary>
 		<write-up>
@@ -31,8 +32,32 @@
 			</vibes>
 		</impression>
 	</cafe>
+	<cafe id="monogram">
+		<name>Monogram</name>
+		<color>#997600</color>
+		<summary>what was the crown jewel of the calgary scene</summary>
+		<recc>short-drinks</recc>
+		<write-up>
+			i don't have—a lot of—insider knowledge. but i pay close attention to some things when i go to cafes, especially when i go to the same cafe almost every day. Monogram was that for me. even [aubade](https://www.vancouvercoffeesnob.com/chinatown/aubade-coffee-2/) ran Monogram as their espresso.
+
+			but things have been shifting. many things that i need to write a general "scene think piece" on that don't fit in this article, but also smaller things. the cortados went from being routinely excellent, to sometimes excellent, to always good. staff churn has been increasing. the seasonal drinks have all kinda sucked recently (including the hot chocolate fest hot chocolates).
+
+			Monogram is still better than like, Deville or Analog or Phil and Sebastian, but the margin gets slimmer every year. It's all a bit depressing to think about.
+		</write-up>
+		<coords>51.049096124603615, -114.06718542186842</coords>
+		<impression timestamp="2024-03-21">
+			<coffee summary="2">
+				<summary>Monogram is a no-mans-land between your 2s and your 3s</summary>
+				<write-up>you should think of Monogram as quitessential third wave, calgary's revolver.</write-up>
+				<short-drinks summary="2"><summary>very dependably good</summary></short-drinks>
+				<pour-overs summary="2"><summary>chill. pretty standard.</summary></pour-overs>
+				<variety summary="3"><summary>they run the standard gamut of coffee drinks, with little seasonal additions</summary></variety>
+			</coffee>
+		</impression>
+	</cafe>
 	<cafe id="paradigm-spark">
 		<name>Paradigm Spark</name>
+		<color>#4f890e</color>
 		<summary>a glowing example of where single-minded devotion can take you</summary>
 		<recc>pour-overs</recc>
 		<write-up>
@@ -130,6 +155,7 @@
 	</cafe>
 	<cafe id="t2722">
 		<name>T2722</name>
+		<color>#1077f3</color>
 		<coords> 51.043029027997044, -114.03897643163158 </coords>
     <summary>genuinely world class. consider yourself fortunate we have access to this</summary>
 		<write-up>
@@ -203,23 +229,44 @@
 	</cafe>
 	<cafe id="mobSquad">
 		<name>MobSquad Cafe</name>
+		<color>#9b54f3</color>
 		<coords>51.04511335156388, -114.06521097396123</coords>
 		<summary>excellent views</summary>
 		<write-up>
 			absolutely the best views in the city. if you can sneak in with a thermos of coffee from elsewhere, you've got the best of both worlds. inside, it feels like the decor was decided by an up and coming oil-sands failson with lots of capital and little taste.
+
+			MobSquad cafe doubles as someone to marry to get a green card. 
 		</write-up>
 		<impression timestamp="distant past">
 			<coffee summary="1">
-				<short-drinks>1</short-drinks>
+				<short-drinks summary="1">
+					<summary>genuinely the worst coffee i've had in years</summary>
+					<write-up>bitter, acidic, sharp. mild petroleum note. primary notes include ash and dust. i wipe my brow and i slap my nuts. this is it, the apocalypse.</write-up>
+				</short-drinks>
+				<long-black summary="1">
+					<summary>the americano misto tasted like—nothing. whispers of ash and paper.</summary>
+				</long-black>
 			</coffee>
 			<price summary="2"></price>
 			<vibes summary="2">
+				<summary>get a window seat</summary>
+				<write-up>
+					the views are nice. i can see telus sky; the top of the bay building; the building Major Toms' is in; the head; &amp;c. i can see the trains and the people come and go, the cars stop and start and idle.
+
+					inside is supposed to be some sort of co-working space, so there's plenty of seating. i've never seen this place more than 25% full. outlets are plentiful.
+
+					as for the "vibe" proper: absolute airspace. a charmless corporate appropriation of third wave. it [transubstantiates](https://alexanderpruss.blogspot.com/2022/01/a-horizontal-aspect-to.html) the fairly standard [sirius xm coffee house](https://www.siriusxm.com/channels/the-coffee-house) bops into [pure bathos](https://en.wikipedia.org/wiki/Bathos).
+
+					truly an edifying experience.
+				</write-up>
 				<view>3</view>
+				<seating>3</seating>
 			</vibes>
 		</impression>
 	</cafe>
 	<cafe id="treno">
 		<name>Treno</name>
+		<color>#cc34cd</color>
 		<coords> 51.04388902810284, -114.0717094825913 </coords>
     <summary> it's hard to think of something to say about Treno </summary>
 		<write-up>my cat always used to say: &lt;q&gt;better to say nothing at all than something rude. focus on the positives!&lt;/q&gt;. to honour his cat-swag, i'll end the review here.</write-up>

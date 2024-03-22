@@ -1,8 +1,7 @@
-import {create, scaleLinear, scaleOrdinal, line as d3Line, schemeCategory10} from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
+import {create, scaleLinear, scaleOrdinal, line as d3Line} from "https://cdn.jsdelivr.net/npm/d3@7/+esm";
 
 const radialScale = scaleLinear().domain([0, 3]).range([0, 250])
 const ticks = [1, 2, 3]
-const colors = scaleOrdinal(schemeCategory10)
 const line = d3Line().x(d => d.x).y(d => d.y)
 
 const constructChart = props => {
@@ -99,7 +98,6 @@ class SpiderGraph extends HTMLElement {
 		const cafeByFeature = {}
 		let idx = 0
 		for (const option of cafes.options) {
-			option.setAttribute('data-color', colors(idx++))
 			cafeByFeature[option.value] = option.dataset
 		}
 
