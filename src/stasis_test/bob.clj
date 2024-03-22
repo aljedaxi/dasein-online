@@ -133,6 +133,11 @@
 (depn kw->str some-> str (subs 1))
 (depn cup some->> m/md->hiccup h/without-div)
 
+(def breaker-style ".centered { text-align: center }")
+(defn breaker [& stuff] (list [:hr] [:div.centered stuff] [:hr]))
+(defn of-three [value]
+  [:span [:sup value] "&frasl;" [:sub (h/a "3" "about/methodology/#nps")]])
+
 (defn shop-page [{:keys [name write-up summary coords features] :as shop}]
   (def graph
     (default-graph {}
@@ -143,8 +148,7 @@
 
   (defn feature->section [{:keys [value summary write-up tag sub-features]} head-level]
     (let [feature (some-> tag kw->str tag->feature first)
-          rating (if (some-> value read-string (> 0))
-                   [:span [:sup value] "&frasl;" [:sub "3"]])
+          rating (if (some-> value read-string (> 0)) (of-three value))
           title [(keyword (format "h%d" head-level)) [:a {:href (link2feature tag)} tag]]
           show-details (and summary write-up)]
       (list
@@ -164,15 +168,13 @@
      :headstuff (list
                   spider-stuff
                   (h/stylesheet "/silly-details.css")
-                  [:style ".centered { text-align: center } .golden-ratio {display: grid;grid-template-columns: 1.618033988749894fr 1fr;align-items: center;} .dented {margin-inline-start: 20.75px; padding: 0} .golden-ratio + p {margin: 0}"])
+                  [:style breaker-style ".golden-ratio {display: grid;grid-template-columns: 1.618033988749894fr 1fr;align-items: center;} .dented {margin-inline-start: 20.75px; padding: 0} .golden-ratio + p {margin: 0}"])
      :children
      (list
        (h/header name summary)
        graph
        (cup write-up)
-       [:hr]
-       [:div.centered location-link]
-       [:hr]
+       (breaker location-link)
        (map #(feature->section % 2) features))}))
 
 
@@ -211,10 +213,37 @@
           body             (some->> markdown (s/join "\n") m/md->hiccup h/without-div)]
       (layout
         {:title "about the bob"
+         :headstuff [:style breaker-style]
          :children
          (seq
            [[:header (seq header)]
+            (breaker (h/a "methodology" "about/methodology"))
             body])}))))
+
+
+(def methodology
+  (layout
+    {:title "methodology"
+     :children
+     (list
+       (h/header "methodology"
+                 "am i using methodology right? this is an " (h/a "account" "https://en.wikipedia.org/wiki/Fundamental_ontology") " of my methods")
+       [:h2#nps "the 0-3 scale"]
+       [:p
+        "the 0-3 scale is an abuse of " (h/a "Net Promoter Scores" "https://apenwarr.ca/log/20231204") ". the basic idea is that you have three kinds of customers:"
+       [:ol
+        [:li "people that love your stuff: your " [:em "Promoters"]]
+        [:li "people that don't feel any particular way about your stuff."]
+        [:li "and people that hate your stuff: your " [:em "Detractors"]]]
+       "because the average rating on google maps is 4 stars, 1/5 to 3/5 are your detractors; 5/5 are your promoters; 4/5 doesn't matter."]
+       [:p "i like the system RE: this website because it's about " [:em "promotion"] ". i made this website because i want to promote some coffee shops (and kinda because i want to hate on some others). " [:abbr {:title "Net Promoter Score"} "NPS"] " is designed to express exactly that: the desire to " [:em "actively"] " bring up products/companies/pillars of the community."]
+       [:p
+        "the act of flattening the standard 1-10 scale into a 1-3 scale is a " (h/a "useful analytical tool" "https://existentialcomics.com/comic/290") " if you're someone in marketing that needs a good, single metric. because there's only one of " (h/a "me" "about-me/") ", it's not super important " [:em "here"] "."]
+       [:p
+        "this ignores that a score is more than a score: it's an index. when " (h/a "Anthony Fantano" "https://www.youtube.com/@theneedledrop") " gives " (h/a "an album you thought was great a 6" "https://www.youtube.com/watch?v=OelpOL9bLTY") ", there's this understanding that he thought, idk, " [:em "insert whatever 7/10 album here"] " was better than that thing you liked. a ranking emerges. everything is relative to everything else on the stack."]
+       [:p "this is especially relevant when you're me, and you want to help, say, travellers who'll only be able to visit one cafe find the best cafe possible. you need to be able to sort these things, and have the best of the best be visibly skimmable."]
+       [:aside "(as a teen, i watched a " (h/a "negative review of an anime" "https://www.youtube.com/watch?v=_1_T6XJKkSQ") " and understood that i would love it. i did love it. i could never have had an experience like that if the video didn't go into every aspect of the anime, in the same way i would have never heard about aubade if the snob didn't go into every aspect of each cafe. what i like about the format of this site is that we can losslessly surface those little facets of the experience.)"]
+       )}))
 
 
 (def pages
@@ -223,5 +252,6 @@
     feature-pages
     {"about-me/index.html" about-me
      "about/index.html" about
+     "about/methodology/index.html" methodology
      "glossary/index.html" glossary
      "index.html" coffee-bob}))
