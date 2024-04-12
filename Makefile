@@ -56,4 +56,7 @@ run: grab-pages
 test:
 	@lein test
 
+first-unused-color:
+	@bb -i scripts/get-first-unused-color.clj < resources/colours.yaml
+
 .PHONY: grab-pages test run all clean stuff

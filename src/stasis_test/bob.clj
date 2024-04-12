@@ -254,6 +254,8 @@
         "this ignores that a score is more than a score: it's an index. when " (h/a "Anthony Fantano" "https://www.youtube.com/@theneedledrop") " gives " (h/a "an album you thought was great a 6" "https://www.youtube.com/watch?v=OelpOL9bLTY") ", there's this understanding that he thought, idk, " [:em "insert whatever 7/10 album here"] " was better than that thing you liked. a ranking emerges. everything is relative to everything else on the stack."]
        [:p "this is especially relevant when you're me, and you want to help, say, travellers who'll only be able to visit one cafe find the best cafe possible. you need to be able to sort these things, and have the best of the best be visibly skimmable."]
        [:aside "(as a teen, i watched a " (h/a "negative review of an anime" "https://www.youtube.com/watch?v=_1_T6XJKkSQ") " and understood that i would love it. i did love it. i could never have had an experience like that if the video didn't go into every aspect of the anime, in the same way i would have never heard about aubade if the snob didn't go into every aspect of each cafe. what i like about the format of this site is that we can losslessly surface those little facets of the experience.)"]
+       [:h2#writing "how to write good"]
+       [:p "write drunk; edit————never; XDDDDDDDDDDDDD"]
        )}))
 
 

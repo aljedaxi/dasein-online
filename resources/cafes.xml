@@ -60,6 +60,7 @@
 		<color>#1077f3</color>
 		<coords> 51.043029027997044, -114.03897643163158 </coords>
     <summary>genuinely world class. consider yourself fortunate we have access to this</summary>
+		<reqq>flight</reqq>
 		<write-up>
 			we might think of T2722 as having three prongs: coffee, tea, and pastry. this is paralleled in the staff, 3 experts: Elle, Julian, and the mysterious french baker who i haven't spoken with. these three work 12 hour shifts, every day. the depths of their passion is a mystery even to me.
 
@@ -177,6 +178,48 @@
 				<espresso>1</espresso>
 			</coffee>
 			<price summary="2"></price>
+		</impression>
+	</cafe>
+	<cafe class="q-lab">
+		<name>Q Lab</name>
+		<color>#c85b00</color>
+		<summary>a great place to try all kinds of stuff</summary>
+		<write-up>
+			i've got a feeling that i didn't get the full Q Lab experience. sure, i got the flight, and i was walked through the options, and i chose cool options and spoke with the barista. somewhere along the line, i got the feeling i missed something essential. when most coffee houses put the word "coffee" on the menu, they mean only the "coffee liqueur", the liquid byproduct of the coffee brewing process. when Q Labs uses the word coffee, they mean liquid, roasted beans, green coffee, &amp;c.
+
+			There's something very special here that's easily missed.
+		</write-up>
+		<impression timestamp="2024-03-23">
+			<coffee summary="2">
+				<summary>closer to cupping</summary>
+				<write-up>
+					this is what's convinced me i need an internal ranking system among 2s. this is the strongest 2 on the site. the coffee is good. the coffee is great.
+
+					it just isn't in the same league as Sought and Found, Paradigm Spark, T2722, &amp;c., because the place is more about green than they are about brown. it's closer to cupping in the sense that this is a pure exploration of terroir and processing technique, to the exclusion of brewing technique.
+
+					again, not bad. better than ever other two. it's just focused on something else.
+				</write-up>
+				<flights summary="3">
+					<summary>a collaborative, exploratory experience</summary>
+					<write-up>
+						this is the crown jewel of the experience. you need to get the flight. you _need_ to get the flight. just get the flight.
+					</write-up>
+				</flights>
+			</coffee>
+			<price summary="2">
+				<summary>[no complaints](https://youtu.be/9xZb4AMi--c?si=p4SRydcNxVfDi1J1&amp;t=59)</summary>
+			</price>
+			<vibes summary="2">
+				<summary>spartan, technical, focused</summary>
+				<write-up>
+					the first thing you're struck with on your way in is that you're not struck by any single thing. there's a lot going on, especially when you first enter. there's wall of windows—the torrent of cold light—leading to the wall of bean bags, leading to a wall of equipment, leading to an espresso machine??? a deeply mysterious espresso machine on a table, leading to the cash register.
+
+					as it stands—which may end soon—the storefront oscillates between spartan and cluttered. it feels like a _lab_; a place where people work on and with coffee. it's neat. i wouldn't be surprised if this feeling was just part of the opening process, but i would be depressed.
+				</write-up>
+			</vibes>
+			<staff summary="3">
+				<summary>super chill cat</summary>
+			</staff>
 		</impression>
 	</cafe>
 </root>
