@@ -180,7 +180,7 @@
 			<price summary="2"></price>
 		</impression>
 	</cafe>
-	<cafe class="q-lab">
+	<cafe id="q-lab">
 		<name>Q Lab</name>
 		<color>#c85b00</color>
 		<summary>a great place to try all kinds of stuff</summary>
