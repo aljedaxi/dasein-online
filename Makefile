@@ -45,12 +45,13 @@ stuff:
 
 build:
 	@lein run -m stasis-test.core/export $(WHITHER)
-	@pushd $(WHITHER) && npx serve && popd
+	@pushd $(WHITHER) && sudo quark -p 3000 &
+	@surf localhost:3000
 
 rebuild-ur-site: build
 	@pushd $(WHITHER) && git add . && git commit -m "feat: lol" && git push
 
-run: grab-pages
+run:
 	@lein ring server
 
 test:
