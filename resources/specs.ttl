@@ -1,0 +1,47 @@
+@base <https://daseinonline.xyz/coffee-bob/taxonomy/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<Feature> a rdfs:Class .
+
+<rating> a rdfs:Property ;
+         rdfs:domain <Feature> ;
+         rdfs:range rdfs:Literal .
+
+<subfeature> a rdfs:Property ;
+             rdfs:domain <Feature> ;
+             rdfs:range <Feature> .
+
+<Coffee> a <Feature> ;
+         rdfs:comment "coffee is good. drink coffee. idk i'll come up with something later."@en ;
+         <subfeature> <Turkish>, <Espresso>, <ShortDrink>, <LongBlacks>, <Flights>, <PourOvers> .
+
+<Turkish> a <Feature> ;
+          rdfs:comment "alternatively known as arabic coffee. spread throughout the middle east by the ottoman empire, it's served with the grounds in the cup, like cupping coffee. for historical reasons, these days, it tends to be served with spices."@en .
+
+<Espresso> a <Feature> ;
+          rdfs:comment "the ontic ground of all short drinks, long blacks &c." .
+
+<ShortDrink> a <Feature> ;
+          rdfs:comment "your cortados, macchiatos, cappuccinos, &c. with the exception of milk texture, i tend to think of these as all essentially the same, and choose whatever works best with the espresso."@en .
+
+<LongBlacks> a <Feature> ;
+          rdfs:comment "americanos and shit"@en .
+
+<Flights> a <Feature> ;
+          rdfs:comment "sometimes you want to try a lot of things...."@en .
+
+<PourOvers> a <Feature> ;
+          rdfs:comment "if you could serve it at brewer's cup, it's in"@en .
+
+<Space> a <Feature> ;
+        rdfs:comment "the parts of being that americans call 'common sense', 'objective'"@en ;
+        <subfeature> <Power>, <Seating>, <Architecture> .
+
+<Architecture> a <Feature> ;
+        rdfs:comment "that which cannot be seen, but must speak through the seen"@en .
+
+<Seating> a <Feature> ;
+        rdfs:comment "will you find a seat? when? will it be comfy?" .
+
+<Power> a <Feature> ;
+        rdfs:comment "do they have a lot of outlets? may you use your laptop?" .
