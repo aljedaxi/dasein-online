@@ -222,4 +222,21 @@
 			</staff>
 		</impression>
 	</cafe>
+	<cafe>
+		<impression timestamp="2024-12-09">
+			<coffee summary="2">
+				<summary>good! really reminds me of whistler.</summary>
+				<write-up>
+					nothing terribly special about it.
+				</write-up>
+			</coffee>
+			<vibes summary="3">
+				<write-up>
+			what truly pulls this place together is the exposed brick. the chairs are draped in marathon numbers; half the wall decor is skis, the other half is pictures of mountains and drawings of skiiers; the coat rack and the divider between the seating and brewing are both made of reclaimed skis. it's being among unfinished wood beams and the raw concrete floor that reveals these materials as honest, functional, and stylish
+				</write-up>
+			</vibes>
+			<vibes>
+			</vibes>
+		</impression>
+	</cafe>
 </root>
