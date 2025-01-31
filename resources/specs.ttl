@@ -1,79 +1,86 @@
 @base <https://daseinonline.xyz/coffee-bob/taxonomy/> .
 @prefix bob: <https://daseinonline.xyz/coffee-bob/taxonomy/> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 
 <Feature> a rdfs:Class .
 
 <rating> a rdfs:Property ;
-         rdfs:domain <Feature> ;
-         rdfs:range rdfs:Literal .
+  rdfs:domain <Feature> ;
+  rdfs:range rdfs:Literal .
 
 <subfeature> a rdfs:Property ;
-             rdfs:domain <Feature> ;
-             rdfs:range <Feature> .
+  rdfs:domain <Feature> ;
+  rdfs:range <Feature> .
 
 <Coffee> a <Feature> ;
-         rdfs:comment "coffee is good. drink coffee. idk i'll come up with something later."@en ;
-         <subfeature> <Turkish>, <Espresso>, <ShortDrink>, <LongBlacks>, <Flights>, <PourOvers> .
+  skos:definition "coffee is good. drink coffee"@en ;
+  skos:editorialNote "idk i'll come up with something later"@en ;
+  <subfeature> <Turkish>, <Espresso>, <ShortDrink>, <LongBlacks>, <Flights>, <PourOvers> .
 
 <Turkish> a <Feature> ;
-          rdfs:comment "alternatively known as arabic coffee. spread throughout the middle east by the ottoman empire, it's served with the grounds in the cup, like cupping coffee. for historical reasons, these days, it tends to be served with spices."@en .
+  skos:definition "alternatively known as arabic coffee. spread throughout the middle east by the ottoman empire, it's served with the grounds in the cup, like cupping coffee. for historical reasons, these days, it tends to be served with spices."@en .
 
 <Espresso> a <Feature> ;
-          rdfs:comment "the ontic ground of all short drinks, long blacks &c." .
+  skos:definition "the ontic ground of all short drinks, long blacks &c." .
 
 <ShortDrink> a <Feature> ;
-          rdfs:label "short drinks"@en ;
-          rdfs:comment "your cortados, macchiatos, cappuccinos, &c. with the exception of milk texture, i tend to think of these as all essentially the same, and choose whatever works best with the espresso."@en .
+  rdfs:label "short drinks"@en ;
+  skos:example "your cortados, macchiatos, cappuccinos, &c."@en ;
+  rdfs:comment "with the exception of milk texture, i tend to think of these as all essentially the same, and choose whatever works best with the espresso."en ;
+  skos:definition "a double of espresso with less milk than a latte"@en .
 
 <LongBlacks> a <Feature> ;
-          rdfs:label "long blacks"@en ;
-          rdfs:comment "americanos and shit"@en .
+  rdfs:label "long blacks"@en ;
+  skos:example "americanos, long blacks, short blacks"@en ;
+  skos:definition "hot watered down espresso"@en .
 
 <Flights> a <Feature> ;
-          rdfs:comment "sometimes you want to try a lot of things...."@en .
+  skos:definition "sometimes you want to try a lot of things...."@en .
 
 <PourOvers> a <Feature> ;
-          rdfs:label "pour overs &c."@en ;
-          rdfs:comment "if you could serve it at brewer's cup, it's in"@en .
+  rdfs:label "pour overs &c."@en ;
+  skos:definition "if you could serve it at brewer's cup, it's in"@en .
 
 <Space> a <Feature> ;
-        rdfs:comment "the parts of being that americans call 'common sense', 'objective'"@en ;
-        <subfeature> <Power>, <Seating>, <Architecture> .
+  skos:definition "the parts of being that americans call 'common sense', 'objective'"@en ;
+  <subfeature> <Power>, <Seating>, <Architecture> .
 
 <Architecture> a <Feature> ;
-        rdfs:comment "that which cannot be seen, but must speak through the seen"@en .
+  skos:example "the way the door arches, the way cafe integrates with the rest of the building"@en ;
+  skos:definition "that which cannot be seen, but must speak through the seen"@en .
 
 <Seating> a <Feature> ;
-        rdfs:comment "will you find a seat? when? will it be comfy?" .
+  skos:definition "will you find a seat? when? will it be comfy?" .
 
 <Power> a <Feature> ;
-        rdfs:comment "do they have a lot of outlets? may you use your laptop?" .
+  skos:definition "do they have a lot of outlets? may you use your laptop?" .
 
 <Price> a <Feature> ;
-        rdfs:comment "is this cheap? is this everyday bro? or is this a real excursion? a splurge? not normalized for quality pure function of the market."@en .
+  skos:example "3 bucks for an americano is cheap."
+  skos:definition "is this cheap? is this everyday bro? or is this a real excursion? a splurge? not normalized for quality pure function of the market."@en .
 
 <Food> a <Feature> ;
-       rdfs:comment "edible solids, and perhaps soups."@en ;
-       <subfeature> <BakedGoods> .
+  skos:definition "edible solids, and perhaps soups."@en ;
+  <subfeature> <BakedGoods> .
 
 <Vibes> a <Feature> ;
-        rdfs:comment "branding; the feelings of the space, what the space engenders;"@en ;
-        <subfeature> <View>, <Appolonianism> .
+  skos:definition "branding; the feelings of the space, what the space engenders;"@en ;
+  <subfeature> <View>, <Appolonianism> .
 
 <View> a <Feature> ;
-       rdfs:comment "What's the view out the window?"@en .
+  skos:definition "What's the view out the window?"@en .
 
 <Appolonianism> a <Feature> ;
-       rdfs:comment "supreme focus on clarity of flavour on the nose and palate"@en .
+  skos:definition "supreme focus on clarity of flavour on the nose and palate"@en .
 
 <OtherBevvies> a <Feature> ;
-        rdfs:label "drinks"@en ;
-        rdfs:comment "drinks that aren't coffee"@en ;
-        <subfeature> <HotChocolate>, <MiscDrinks> .
+  rdfs:label "drinks"@en ;
+  skos:definition "drinks that aren't coffee"@en ;
+  <subfeature> <HotChocolate>, <MiscDrinks> .
 
 <HotChocolate> a <Feature> ;
-        rdfs:comment "when the chocolate hot tho?"@en .
+  skos:definition "when the chocolate hot tho?"@en .
 
 <MiscDrinks> a <Feature> ;
-        rdfs:comment "usually stuff that's specific to this place"@en .
+  skos:definition "usually stuff that's specific to this place"@en .
