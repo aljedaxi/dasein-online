@@ -29,6 +29,7 @@ green:
 
 cyan:
   - hex: "#008c5c"
+    taken-by: semantics
   - hex: "#33b983"
   - hex: "#00603d"
   - hex: "#0e3724"
