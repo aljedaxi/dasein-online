@@ -29,7 +29,7 @@ green:
 
 cyan:
   - hex: "#008c5c"
-    taken-by: semantics
+    taken-by: analog-bankers-hall
   - hex: "#33b983"
   - hex: "#00603d"
   - hex: "#0e3724"
@@ -38,6 +38,7 @@ blue:
   - hex: "#1077f3"
     taken-by: t2722
   - hex: "#5ba8f7"
+    taken-by: semantics
   - hex: "#0050ae"
   - hex: "#002f64"
 
